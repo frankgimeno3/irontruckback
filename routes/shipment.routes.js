@@ -2,7 +2,7 @@ const router = require("express").Router();
 const Shipment = require("../models/Shipment.model");
 
 
-route.get("/dashboard", (req, res, next) => {
+router.get("/dashboard", (req, res, next) => {
     Shipment.find()
         .populate("User")
         .then(response => {
@@ -14,7 +14,7 @@ route.get("/dashboard", (req, res, next) => {
 ///api/Shipment/new
 router.post("/new", (req, res, next) => {
     const { author, creationDate, pickUpDireccion, pickUpProvince, deliveryDireccion, deliveryProvince, pallets, request, state } = req.body;
-    Project.create({ author, creationDate, pickUpDireccion, pickUpProvince, deliveryDireccion, deliveryProvince, pallets, request, state })
+    Shipment.create({ author, creationDate, pickUpDireccion, pickUpProvince, deliveryDireccion, deliveryProvince, pallets, request, state })
         .then(response => {
             res.json({ resultado: "ok" });
         })

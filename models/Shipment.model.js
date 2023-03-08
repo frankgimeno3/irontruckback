@@ -52,6 +52,6 @@ const shipmentSchema = new Schema(
     }
 );
 
-const Shipment = model("News", shipmentSchema);
+const Shipment = model("Shipment", shipmentSchema);
 
 module.exports = Shipment;
