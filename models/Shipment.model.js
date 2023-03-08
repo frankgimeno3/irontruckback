@@ -34,15 +34,15 @@ const shipmentSchema = new Schema(
             required: true
         },
 
-        request: {
-            type: Schema.Types.ObjectId, ref: "Request",
-        },
+        // request: {
+        //     type: Schema.Types.ObjectId, ref: "Request",
+        // },
 
-        state: {
-            type: String,
-            enum: ["Open", "inNegociation", "Complet"],
-            default: "Open"
-        }
+        // state: {
+        //     type: String,
+        //     enum: ["Open", "inNegociation", "Complet"],
+        //     default: "Open"
+        // }
 
     },
 
@@ -52,6 +52,6 @@ const shipmentSchema = new Schema(
     }
 );
 
-const Shipment = model("News", shipmentSchema);
+const Shipment = model("Shipment", shipmentSchema);
 
 module.exports = Shipment;
