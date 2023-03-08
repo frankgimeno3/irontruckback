@@ -16,7 +16,7 @@ router.post("/new", (req, res, next) => {
     const { author, creationDate, pickUpDireccion, pickUpProvince, deliveryDireccion, deliveryProvince, pallets } = req.body;
     Shipment.create({ author, creationDate, pickUpDireccion, pickUpProvince, deliveryDireccion, deliveryProvince, pallets })
         .then(response => {
-            res.json({ resultado: "ok" });
+            res.json(response);
         })
         .catch(err => next(err))
 });
