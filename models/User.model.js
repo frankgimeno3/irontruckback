@@ -18,6 +18,28 @@ const userSchema = new Schema(
       type: String,
       required: [true, "Name is required."],
     },
+    image: {
+      type: String,
+    },
+
+    phoneNumber: {
+      type: Number,
+      required: [true, "Phone Number is required."],
+      unique: true
+    },
+
+    direccion: {
+      type: String,
+      required: [true, "Direccion is required."]
+    },
+
+
+    envios: { type: [Schema.Types.ObjectId], ref: "Envio" },
+
+    isAdmin: {
+      type: Boolean,
+      default: false,
+    }
   },
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`
