@@ -117,33 +117,26 @@ module.exports = Request;
 ## User roles
 | Role  | Capabilities                                                                                                                               | Property       |
 | :---: | ------------------------------------------------------------------------------------------------------------------------------------------ | -------------- |
-| User  | Can login/logout. Can read all the projects. Can create a new order.                                                                       | isAdmin: false |
+| User  | Can login/logout. User can create shipments but can only see yours                                                                                                                         | isAdmin: false |
+| Transportist  | Can login/logout. Can read all the shipments. And can make a request to user shipments.                                                                                                                      | isAdmin: false |
 | Admin | Can login/logout. Can read, edit or delete all the Shipments. Can create a new Shipment. Can read all user's orders and edit or delete them. | isAdmin: true  |
 
 ## API Reference
 | Method | Endpoint                    | Require                                             | Response (200)                                                        | Action                                                                    |
 | :----: | --------------------------- | --------------------------------------------------- |---------------------------------------------------------------------- | ------------------------------------------------------------------------- |
-| POST   | /signup                     | const { username, email, password } = req.body      | json({user: user})                                              | Registers the user remitent in the database and 
-                                         returns the logged in user.                         |
+| POST   | /signup                     | const { username, email, password } = req.body      | json({user: user})                                              | Registers the user remitent in the database and returns the logged in user.                         |
 | POST   | /login                      | const { email, password } = req.body                |json({authToken:authToken})           | Logs in a user or transportist is already registered.                           
-| PUT    | /user/:userId               | const { UserId } = req.params                       | json({updatedUser})                                              | Edits a Users data that already exists 
-                                         on the database.                                    |
-| POST   | /signup-transportist        | const { username, email, password } = req.body      | json({user: user})                                              | Registers the Transportist in the database 
-                                        and returns the logged in transportist.              |                           
-| PUT    |/transportist/:transportistId|const { projectId } = req.params                     |json({updatedTransportist})           | Edits a Transportist data that already exists on 
-                                        the database.                                        |
+| PUT    | /user/:userId               | const { UserId } = req.params                       | json({updatedUser})                                              | Edits a Users data that already exists on the database.                                    |
+| POST   | /signup-transportist        | const { username, email, password } = req.body      | json({user: user})                                              | Registers the Transportist in the database and returns the logged in transportist.              |                           
+| PUT    |/transportist/:transportistId|const { transportistId } = req.params                     |json({updatedTransportist})           | Edits a Transportist data that already exists on the database.|
 | GET    | /shipment                   |   Returns an array with all shipments publiqued     | json([allshipments])                                              |  
-| POST   | /shipment                   | const { author, creationDate, pickUpDireccion, 
-                                         pickUpProvince,deliveryDireccion, deliveryProvince,
-                                         pallets, state} = req.body                          | json({response})                                                |  Creates a Shipment in the database.                                   
-|
-| GET    | /shipment/:shipmentId        | const { shipmentId } = req.params                    | json({project})                                                | Returns the information of the specified shipment.                      
-|
-| POST   | /request                    | const { author, date, shipment = req.body           | json({response})                                                      | Creates request.                                 |
-| PUT    | /shipment/:shipmentId       | const { shipmentId } = req.params                   | json({updatedProject})                                          | Edits a shipment that already exists on the database.                          |
-| DELETE | /shipment/:shipmentId       | const { projectId } = req.params                    | json({| Deletes shipment            |
-| DELETE | /request/:projectId         | const { projectId } = req.params                    | json({message: "Project with *projectId* was removed successful| Deletes a request shipment from the database.        |
-| GET    | /profile                    | -                                                   | json({thisUser})          |                                      | Returns the current user object.                                       
+| POST   | /shipment                   | const { author, creationDate, pickUpDireccion,pickUpProvince,deliveryDireccion, deliveryProvince,pallets, state} = req.body                          | json({response})                                                |  Creates a Shipment in the database.                                   |
+| GET    | /shipment/:shipmentId        | const { shipmentId } = req.params                    | json({project})                                                | Returns the information of the specified shipment.   |
+| POST   | /request                    | const { author, date, shipment = req.body           | json({response})                                                | Creates request.                                 |
+| PUT    | /shipment/:shipmentId       | const { shipmentId } = req.params                   | json({updatedProject})                                          | Edits a shipment that already exists on the database.|
+| DELETE | /shipment/:shipmentId       | const { shipmentId } = req.params                    | json({| Deletes shipment            |
+| DELETE | /request/:shipmentId         | const { shipmentId } = req.params                   | json({message: "request  was denegate | Deletes a request of shipment from the database.  |
+| GET    | /profile                    | Returns the current user object.                     | json({thisUser})          |                                      |                                       
 
 ---
 
