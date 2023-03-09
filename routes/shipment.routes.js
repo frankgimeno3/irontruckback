@@ -45,8 +45,8 @@ router.delete("/delete/:id", (req, res, next) => {
 router.get("/:idShipment", (req, res, next) => {
     const { idShipment } = req.params;
     Shipment.findById(idShipment)
-        .populate("User")
-        .populate("Request")
+        .populate("author")
+        // .populate("Request")
         .then(result => {
             console.log("RESULT: ", result);
             res.json(result);
