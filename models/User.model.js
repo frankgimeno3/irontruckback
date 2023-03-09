@@ -20,6 +20,7 @@ const userSchema = new Schema(
     },
     image: {
       type: String,
+      default: "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/6192175/truck-driver-clipart-md.png",
     },
 
     phoneNumber: {
@@ -28,7 +29,7 @@ const userSchema = new Schema(
       unique: true
     },
 
-    direccion: {
+    address: {
       type: String,
       required: [true, "Direccion is required."]
     },
