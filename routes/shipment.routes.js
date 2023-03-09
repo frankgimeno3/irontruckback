@@ -4,7 +4,7 @@ const Shipment = require("../models/Shipment.model");
 
 router.get("/", (req, res, next) => {
     Shipment.find()
-        .populate("User")
+        .populate("author")
         .then(response => {
             res.json(response);
         })
