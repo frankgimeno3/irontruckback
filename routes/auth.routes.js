@@ -14,12 +14,12 @@ const { isAuthenticated } = require("../middleware/jwt.middleware.js");
 const saltRounds = 10;
 
 // POST /auth/signup  - Creates a new user in the database
-router.post("/signup", fileUploader.single('movie-cover-image'), (req, res, next) => {
-  const { email, password, name } = req.body;
+router.post("/signup", fileUploader.single("imgURL"), (req, res, next) => {
+  const { email, password, name, phoneNumber, address } = req.body;
 
   // Check if email or password or name are provided as empty strings
-  if (email === "" || password === "" || name === "") {
-    res.status(400).json({ message: "Provide email, password and name" });
+  if (email === "" || password === "" || name === "" || phoneNumber === "" || address === "") {
+    res.status(400).json({ message: "Provide all camps" });
     return;
   }
 
@@ -40,8 +40,18 @@ router.post("/signup", fileUploader.single('movie-cover-image'), (req, res, next
     return;
   }
 
+  //Check the phoneNumber is 9 caracters length
+
+  if (!phoneNumber.length === 9) {
+    res.status(400).json({
+      message:
+        "The phoneNumber is not correct",
+    });
+    return;
+  }
+
   // Check the users collection if a user with the same email already exists
-  User.findOne({ email })
+  User.findOne({ email, phoneNumber })
     .then((foundUser) => {
       // If the user with the same email already exists, send an error response
       if (foundUser) {
@@ -55,15 +65,16 @@ router.post("/signup", fileUploader.single('movie-cover-image'), (req, res, next
 
       // Create the new user in the database
       // We return a pending promise, which allows us to chain another `then`
-      return User.create({ email, password: hashedPassword, name });
+      return User.create({ email, password: hashedPassword, name, phoneNumber, address });
     })
+
     .then((createdUser) => {
       // Deconstruct the newly created user object to omit the password
       // We should never expose passwords publicly
-      const { email, name, _id } = createdUser;
+      const { email, name, _id, phoneNumber, address } = createdUser;
 
       // Create a new object that doesn't expose the password
-      const user = { email, name, _id };
+      const user = { email, name, _id, phoneNumber, address };
 
       // Send a json response containing the user object
       res.status(201).json({ user: user });
