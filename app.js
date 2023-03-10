@@ -28,10 +28,6 @@ app.use("/transportist", authRoutes);
 
 const shipmentRoutes = require("./routes/shipment.routes");
 app.use("/api/shipment", shipmentRoutes)
-
-const profileRouter = require('./routes/profile.routes'); // <== has to be added
-app.use('/profile', profileRouter); // <== has to be added
-
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);
 
