@@ -2,15 +2,7 @@ const express = require("express");
 const router = express.Router();
 // import { createContext, useEffect, useState } from "react";
 // import { AuthContext } from "../../irontruck/src/context/auth.context";
-const User = require("../models/User.model");
-
-const Transportist = require("../models/Transportist.model");
-const Sender = require("../models/Sender.model");
-
-
-const Transportist = require("../models/Transportist.model");
-const Sender = require("../models/Sender.model");
-
+// const User = require("../models/User.model");
 
 // ********* require fileUploader in order to use it *********
 const fileUploader = require("../config/cloudinary.config");
@@ -22,22 +14,18 @@ router.get("/:id", isAuthenticated, (req, res, next) => {
   const { id: idProject } = req.params;
   // const { licensePlate } = user.licensePlate;
 
-  if (!req.payload.isTransportist) {
-    Sender.findById({ idProject })
-      .then(result => {
-        res.json(result);
-      })
-      .catch(err => next(err))
-  }
+  useEffect(() => {
+    authenticateUser();
+  }, []);
 
-  if (licensePlate) {
+  const { user } = useContext(AuthContext);
 
-    Transportist.findById({ idProject })
-      .then(result => {
-        res.json(result);
-      })
-      .catch(err => next(err))
-  }
+  Transportist.findById({ idProject })
+    .then(result => {
+      res.json(result);
+    })
+    .catch(err => next(err))
+}
 });
 =======
 // GET "/:id" => Route to your profile
