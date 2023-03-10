@@ -35,7 +35,7 @@ const userSchema = new Schema(
     },
 
 
-    envios: { type: [Schema.Types.ObjectId], ref: "Envio" },
+    envios: [ {type: Schema.Types.ObjectI, ref: "Envio" }],
 
     isAdmin: {
       type: Boolean,
