@@ -3,7 +3,6 @@ const { Schema, model } = require("mongoose");
 const transportistSchema = new Schema(
 
     {
-
         email: {
             type: String,
             required: [true, "Email is required."],
@@ -11,39 +10,30 @@ const transportistSchema = new Schema(
             lowercase: true,
             trim: true,
         },
-
         name: {
             type: String,
             required: [true, "Name is required."],
         },
-
         password: {
             type: String,
             required: [true, "Password is required."],
         },
-
         image: {
             type: String,
         },
-
         phoneNumber: String,
-
         licensePlate: {
             type: String,
             required: [true, "License Plate is required"],
         },
-
-        professionaltype: {
+        profesionaltype: {
             type: String,
             enum: ["Company", "Autonomous"],
             required: [true, "Name is required."]
         },
-
         company: {
             type: String
         },
-
-
         nif: {
             type: String,
             required: true,
@@ -62,15 +52,10 @@ const transportistSchema = new Schema(
             default: false,
         }
     },
-
-
-
     {
         // this second object adds extra properties: `createdAt` and `updatedAt`
         timestamps: true,
     }
 );
-
 const Transportista = model("Comment", transportistSchema);
-
 module.exports = Transportista;

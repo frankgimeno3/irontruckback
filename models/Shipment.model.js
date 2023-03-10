@@ -4,7 +4,7 @@ const shipmentSchema = new Schema(
 
     {
         author: {
-            type: Schema.Types.ObjectId, ref: "User"
+            type: Schema.Types.ObjectId, ref: "Sender"
         },
 
         creationDate: {
