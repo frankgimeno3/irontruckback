@@ -15,7 +15,7 @@ const saltRounds = 10;
 
 // POST /auth/signup  - Creates a new sender in the database
 router.post("/signup", (req, res, next) => {
-  const { email, password, name, phoneNumber, address } = req.body;
+  const { email, password, name, image, phoneNumber, address, createdShipments, currentShipments, completedShipments, rejectedShipments} = req.body;
 
   // Check if email or password or name are provided as empty strings
   if (email === "" || password === "" || name === "" || phoneNumber === "" || address === "") {
@@ -71,10 +71,10 @@ router.post("/signup", (req, res, next) => {
     .then((createdSender) => {
       // Deconstruct the newly created sender object to omit the password
       // We should never expose passwords publicly
-      const { email, name, _id, phoneNumber, address } = createdSender;
+      const { _id, email, name, image, phoneNumber, address, createdShipments, currentShipments, completedShipments, rejectedShipments } = createdSender;
 
       // Create a new object that doesn't expose the password
-      const sender = { email, name, _id, phoneNumber, address };
+      const sender = { _id, email, password, name, image, phoneNumber, address, createdShipments, currentShipments, completedShipments, rejectedShipments };
 
       // Send a json response containing the sender object
       res.status(201).json({ sender: sender });
@@ -106,10 +106,10 @@ router.post("/login", (req, res, next) => {
 
       if (passwordCorrect) {
         // Deconstruct the sender object to omit the password
-        const { _id, email, name } = foundSender;
+        const { _id, email, password, name, image, phoneNumber, address, createdShipments, currentShipments, completedShipments, rejectedShipments} = foundSender;
 
         // Create an object that will be set as the token payload
-        const payload = { _id, email, name };
+        const payload = { _id, email, password, name, image, phoneNumber, address, createdShipments, currentShipments, completedShipments, rejectedShipments};
 
         // Create a JSON Web Token and sign it
         const authToken = jwt.sign(payload, process.env.TOKEN_SECRET, {

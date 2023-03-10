@@ -35,7 +35,10 @@ const senderSchema = new Schema(
     },
 
 
-    shipments: [ {type: Schema.Types.ObjectId, ref: "Shipments" }],
+    createdShipments: { type: [Schema.Types.ObjectId], ref: "Shipment" },
+    currentShipments: { type: [Schema.Types.ObjectId], ref: "Shipment" },
+    completedShipments: { type: [Schema.Types.ObjectId], ref: "Shipment" },
+    rejectedShipments: { type: [Schema.Types.ObjectId], ref: "Shipment" },
 
     isAdmin: {
       type: Boolean,
