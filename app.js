@@ -23,8 +23,11 @@ app.use("/api", indexRoutes);
 const authRoutes = require("./routes/auth.routes");
 app.use("/auth", authRoutes);
 
+const transRoutes = require("./routes/transp.routes");
+app.use("/transportist", authRoutes);
+
 const shipmentRoutes = require("./routes/shipment.routes");
-app.use("/api/shipment", shipmentRoutes)
+app.use("/shipment", shipmentRoutes)
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);
 
