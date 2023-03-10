@@ -1,9 +1,6 @@
 const { Schema, model } = require("mongoose");
-
-const transportistaSchema = new Schema(
-
+const transportistSchema = new Schema(
     {
-
         email: {
             type: String,
             required: [true, "Email is required."],
@@ -11,54 +8,47 @@ const transportistaSchema = new Schema(
             lowercase: true,
             trim: true,
         },
-
-        username: {
+        name: {
             type: String,
             required: [true, "Name is required."],
         },
-
         password: {
             type: String,
             required: [true, "Password is required."],
         },
-
         image: {
             type: String,
         },
-
-        telefono: String,
-
-        matricula: String,
-
+        phoneNumber: String,
+        licensePlate: {
+            type: String,
+            required: [true, "License Plate is required"],
+        },
         profesionaltype: {
             type: String,
             enum: ["Company", "Autonomous"],
             required: [true, "Name is required."]
-
         },
-
-        addres: {
+        company: {
+            type: String
+        },
+        nif: {
             type: String,
-            required: [true]
+            required: true,
         },
-        NIF: String,
-
-        envios: { type: Schema.Types.ObjectId, ref: "Envio" },
-
+        savedShipments: { type: [Schema.Types.ObjectId], ref: "Shipment" },
+        currentShipments: { type: [Schema.Types.ObjectId], ref: "Shipment" },
+        completedShipments: { type: [Schema.Types.ObjectId], ref: "Shipment" },
+        rejectedShipments: { type: [Schema.Types.ObjectId], ref: "Shipment" },
         isAdmin: {
             type: Boolean,
             default: false,
         }
     },
-
-
-
     {
         // this second object adds extra properties: `createdAt` and `updatedAt`
         timestamps: true,
     }
 );
-
 const Transportista = model("Comment", transportistSchema);
-
 module.exports = Transportista;
