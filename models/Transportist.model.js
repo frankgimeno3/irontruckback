@@ -28,7 +28,10 @@ const transportistaSchema = new Schema(
 
         telefono: String,
 
-        matricula: String,
+        matricula:  {
+            type: String,
+            required: [true, "Matricula is required."],
+        },
 
         profesionaltype: {
             type: String,
