@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-import { createContext, useEffect, useState } from "react";
-import { AuthContext } from "../../irontruck/src/context/auth.context";
+// import { createContext, useEffect, useState } from "react";
+// import { AuthContext } from "../../irontruck/src/context/auth.context";
 const User = require("../models/User.model");
 
 // ********* require fileUploader in order to use it *********
@@ -9,11 +9,11 @@ const fileUploader = require("../config/cloudinary.config");
 const { isAuthenticated } = require("../middleware/jwt.middleware");
 
 
-useEffect(() => {
-  authenticateUser();
-}, []);
+// useEffect(() => {
+//   authenticateUser();
+// }, []);
 
-const {user} = useContext(AuthContext);
+// const {user} = useContext(AuthContext);
 
 // GET "/:id" => Route to your profile
 router.get("/:id", isAuthenticated, (req, res, next) => {
