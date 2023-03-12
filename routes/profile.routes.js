@@ -1,8 +1,8 @@
-// const express = require("express");
-// const router = express.Router();
-// import { createContext, useEffect, useState } from "react";
-// import { AuthContext } from "../../irontruck/src/context/auth.context";
-// const User = require("../models/User.model");
+const express = require("express");
+const router = express.Router();
+import { createContext, useEffect, useState } from "react";
+import { AuthContext } from "../../irontruck/src/context/auth.context";
+const User = require("../models/User.model");
 
 // // ********* require fileUploader in order to use it *********
 // const fileUploader = require("../config/cloudinary.config");
