@@ -1,9 +1,8 @@
 const express = require("express");
 const router = express.Router();
-
-const Transportist = require("../models/Transportist.model");
-const Sender = require("../models/Sender.model");
-
+import { createContext, useEffect, useState } from "react";
+import { AuthContext } from "../../irontruck/src/context/auth.context";
+const User = require("../models/User.model");
 
 // // ********* require fileUploader in order to use it *********
 const fileUploader = require("../config/cloudinary.config");
@@ -57,7 +56,8 @@ router.put("/:id", isAuthenticated, fileUploader.single("imageUrl"), (req, res, 
   }
 
   if (!phoneNumber.length === 9) {
-    res.status(400).json({message: "The phoneNumber is not correct",
+    res.status(400).json({
+      message: "The phoneNumber is not correct",
     });
     return;
   }
@@ -83,23 +83,23 @@ router.put("/:id", isAuthenticated, fileUploader.single("imageUrl"), (req, res, 
 
   if (!licensePlate) {
 
-    Sender.findByIdAndUpdate ( idProject, updateFields, { new: true } )
-    .then(response => {
-      console.log(response.data);
-      if(req.file) res.json({ fileUrl: req.file.secure_url });
-      res.status(200).json(req.payload);
-    })
+    Sender.findByIdAndUpdate(idProject, updateFields, { new: true })
+      .then(response => {
+        console.log(response.data);
+        if (req.file) res.json({ fileUrl: req.file.secure_url });
+        res.status(200).json(req.payload);
+      })
       .catch(err => next(err))
   }
 
 
   if (licensePlate) {
-    Transportist.findByIdAndUpdate ( idProject, updateFields, { new: true } )
-        .then(response => {
-      console.log(response.data);
-      if(req.file) res.json({ fileUrl: req.file.secure_url });
-      res.status(200).json(req.payload);
-    })
+    Transportist.findByIdAndUpdate(idProject, updateFields, { new: true })
+      .then(response => {
+        console.log(response.data);
+        if (req.file) res.json({ fileUrl: req.file.secure_url });
+        res.status(200).json(req.payload);
+      })
       .catch(err => next(err))
   }
 
