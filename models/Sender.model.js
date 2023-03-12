@@ -1,7 +1,7 @@
 const { Schema, model } = require("mongoose");
 
-// TODO: Please make sure you edit the User model to whatever makes sense in this case
-const userSchema = new Schema(
+// TODO: Please make sure you edit the Sender model to whatever makes sense in this case
+const senderSchema = new Schema(
   {
     email: {
       type: String,
@@ -35,7 +35,10 @@ const userSchema = new Schema(
     },
 
 
-    envios: { type: [Schema.Types.ObjectId], ref: "Envio" },
+    createdShipments: { type: [Schema.Types.ObjectId], ref: "Shipment" },
+    currentShipments: { type: [Schema.Types.ObjectId], ref: "Shipment" },
+    completedShipments: { type: [Schema.Types.ObjectId], ref: "Shipment" },
+    rejectedShipments: { type: [Schema.Types.ObjectId], ref: "Shipment" },
 
     isAdmin: {
       type: Boolean,
@@ -48,6 +51,6 @@ const userSchema = new Schema(
   }
 );
 
-const User = model("User", userSchema);
+const Sender = model("Sender", senderSchema);
 
-module.exports = User;
+module.exports = Sender;
