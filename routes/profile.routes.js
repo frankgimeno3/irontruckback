@@ -76,6 +76,38 @@ router.put("/:id", isAuthenticated, fileUploader.single("imageUrl"), (req, res, 
     return;
   }
 
+  let salt = bcrypt.genSaltSync(saltRounds);
+  let hashedPass = bcrypt.hashSync(password, salt);
+  updateFields.password = hashedPass;
+
+  if (req.file) {
+    console.log("req.file.path:", req.file.secure_url)
+    updateFields.image = req.file.secure_url;
+  }// console.log("file is: ", req.file)
+
+
+  if (!licensePlate) {
+
+    Sender.findByIdAndUpdate(idProject, updateFields, { new: true })
+      .then(response => {
+        console.log(response.data);
+        if (req.file) res.json({ fileUrl: req.file.secure_url });
+        res.status(200).json(req.payload);
+      })
+      .catch(err => next(err))
+  }
+
+
+  if (licensePlate) {
+    Transportist.findByIdAndUpdate(idProject, updateFields, { new: true })
+      .then(response => {
+        console.log(response.data);
+        if (req.file) res.json({ fileUrl: req.file.secure_url });
+        res.status(200).json(req.payload);
+      })
+      .catch(err => next(err))
+  }
+
   // Get the URL of the uploaded file and send it as a response.
   // 'fileUrl' can be any name, just make sure you remember to use the same when accessing it on the frontend
 
