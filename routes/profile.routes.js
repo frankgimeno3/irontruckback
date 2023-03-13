@@ -40,50 +40,50 @@ router.put("/:id", isAuthenticated, fileUploader.single("imageUrl"), (req, res, 
         .catch(err => next(err))
   });
 
+});
 
 
-  // PUT /" => Route that receives the image, sends it to Cloudinary via the fileUploader and returns the image URL
-  router.put("/:id", isAuthenticated, fileUploader.single("imageUrl"), (req, res, next) => {
-    const { idProject } = req.params;
-    // console.log("file is: ", req.file)
-    const { email, name, _id, phoneNumber, address } = req.body;
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-    if (!emailRegex.test(email)) {
-      res.status(400).json({ message: "Provide a valid email address." });
-      return;
-    }
-    if (!phoneNumber.length === 9) {
-      res.status(400).json({
-        message:
-          "The phoneNumber is not correct",
-      });
-      return;
-    }
-    if (!req.file) {
-      next(new Error("No file uploaded!"));
-      return;
-    }
 
-    // Get the URL of the uploaded file and send it as a response.
-    // 'fileUrl' can be any name, just make sure you remember to use the same when accessing it on the frontend
+// PUT /" => Route that receives the image, sends it to Cloudinary via the fileUploader and returns the image URL
+router.put("/:id", isAuthenticated, fileUploader.single("imageUrl"), (req, res, next) => {
+  const { idProject } = req.params;
+  // console.log("file is: ", req.file)
+  const { email, name, _id, phoneNumber, address } = req.body;
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  if (!emailRegex.test(email)) {
+    res.status(400).json({ message: "Provide a valid email address." });
+    return;
+  }
+  if (!phoneNumber.length === 9) {
+    res.status(400).json({
+      message:
+        "The phoneNumber is not correct",
+    });
+    return;
+  }
+  if (!req.file) {
+    next(new Error("No file uploaded!"));
+    return;
+  }
 
-    res.json({ fileUrl: req.file.secure_url });
-  });
+  // Get the URL of the uploaded file and send it as a response.
+  // 'fileUrl' can be any name, just make sure you remember to use the same when accessing it on the frontend
 
-  // POST '/api/movies' => for saving a new movie in the database
-  router.post('/movies', (req, res, next) => {
-    // console.log('body: ', req.body); ==> here we can see that all
-    // the fields have the same names as the ones in the model so we can simply pass
-    // req.body to the .create() method
+  res.json({ fileUrl: req.file.secure_url });
+});
 
-    Movie.create(req.body)
-      .then(createdMovie => {
-        // console.log('Created new movie: ', createdMovie);
-        res.status(200).json(createdMovie);
-      })
-      .catch(err => next(err));
-  });
+// POST '/api/movies' => for saving a new movie in the database
+router.post('/movies', (req, res, next) => {
+  // console.log('body: ', req.body); ==> here we can see that all
+  // the fields have the same names as the ones in the model so we can simply pass
+  // req.body to the .create() method
 
-  module.exports = router;
+  Movie.create(req.body)
+    .then(createdMovie => {
+      // console.log('Created new movie: ', createdMovie);
+      res.status(200).json(createdMovie);
+    })
+    .catch(err => next(err));
+});
 
-  module.exports = router; 
+module.exports = router;
