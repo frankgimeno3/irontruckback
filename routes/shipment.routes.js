@@ -29,18 +29,12 @@ router.post("/new", (req, res, next) => {
 
         .then(response => {
             return Sender.findByIdAndUpdate(author, { $push: { createdShipments: response._id } }, { new: true })
-<<<<<<< HEAD
-
-=======
->>>>>>> ef18347 (arreglado)
         })
 
         .then(response => {
             console.log(response)
 
         })
-<<<<<<< HEAD
-<<<<<<< HEAD
         .catch(err => next(err))
 });
 // router.post("/new", (req, res, next) => {
