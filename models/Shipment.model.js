@@ -37,7 +37,7 @@ const shipmentSchema = new Schema(
     },
 
     {
-       timestamps: true,
+        timestamps: true,
     }
 );
 

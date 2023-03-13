@@ -16,20 +16,20 @@ router.get("/", (req, res, next) => {
 
 ///api/Shipment/new
 router.post("/new", (req, res, next) => {
-    const { creationDate, pickUpDireccion, pickUpProvince, deliveryDireccion, deliveryProvince, pallets } = req.body;
-
-    const author = req.user
+    const { creationDate, pickUpDireccion, pickUpProvince, deliveryDireccion, deliveryProvince, pallets, author } = req.body;
 
     console.log(req.current)
 
     console.log(req.body)
 
-    Shipment.create({ author, creationDate, pickUpDireccion, pickUpProvince, deliveryDireccion, deliveryProvince, pallets })
+    Shipment.create({ author, creationDate, pickUpDireccion, pickUpProvince, deliveryDireccion, deliveryProvince, pallets, author })
         .then(response => {
+            return Sender.findByIdAndUpdate(author, { $push: { createdShipments: response._id } }, { new: true })
+        })
 
+        .then(response => {
             console.log(response)
 
-            res.json(response);
         })
         .catch(err => next(err))
 });
