@@ -6,7 +6,7 @@ const transportistSchema = new Schema(
 
         email: {
             type: String,
-            required: [true, "Email is required."],
+            // required: [true, "Email is required."],
             unique: true,
             lowercase: true,
             trim: true,
@@ -28,18 +28,18 @@ const transportistSchema = new Schema(
 
         phoneNumber: {
             type: String,
-            required: [true, "License Plate is required"],
+            required: [true, "Phone Number is required"],
         },
 
         licensePlate: {
             type: String,
-            required: [true, "License Plate is required"],
+            // required: [true, "License Plate is required"],
         },
 
         professionaltype: {
             type: String,
             enum: ["Company", "Autonomous"],
-            required: [true, "Name is required."]
+            // required: [true, " Profesional Type is required."]
         },
 
         company: {
@@ -49,7 +49,7 @@ const transportistSchema = new Schema(
 
         nif: {
             type: String,
-            required: true,
+            // required: true,
         },
 
         savedShipments: { type: [Schema.Types.ObjectId], ref: "Shipment" },

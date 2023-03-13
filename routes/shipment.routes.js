@@ -1,5 +1,8 @@
 const router = require("express").Router();
 const Shipment = require("../models/Shipment.model");
+const Sender = require("../models/Sender.model");
+// import { AuthContext } from "../../irontruck/src/context/auth.context";
+const { isAuthenticated } = require("../middleware/jwt.middleware");
 
 
 router.get("/", (req, res, next) => {
@@ -13,13 +16,38 @@ router.get("/", (req, res, next) => {
 
 ///api/Shipment/new
 router.post("/new", (req, res, next) => {
-    const { author, creationDate, pickUpDireccion, pickUpProvince, deliveryDireccion, deliveryProvince, pallets } = req.body;
+    const { creationDate, pickUpDireccion, pickUpProvince, deliveryDireccion, deliveryProvince, pallets } = req.body;
+
+    const author = req.user
+
+    console.log(req.current)
+
+    console.log(req.body)
+
     Shipment.create({ author, creationDate, pickUpDireccion, pickUpProvince, deliveryDireccion, deliveryProvince, pallets })
         .then(response => {
+
+            console.log(response)
+
             res.json(response);
         })
         .catch(err => next(err))
 });
+// router.post("/new", (req, res, next) => {
+//     const { author, creationDate, pickUpDireccion, pickUpProvince, deliveryDireccion, deliveryProvince, pallets } = req.body;
+//     console.log(req.body)
+//     Shipment.create({ author, creationDate, pickUpDireccion, pickUpProvince, deliveryDireccion, deliveryProvince, pallets })
+//         // .then(response => {
+//         //     console.log(response)
+
+//         //     // return Sender.findByIdAndUpdate(author, { $push: { createdShipments: response } }, { new: true })
+//         // })
+//         .then((data) => {
+//              res.json(response) })
+
+//         .catch(err => next(err))
+// });
+
 
 router.put("/edit/:idShipment", (req, res, next) => {
     const { idShipment } = req.params;
