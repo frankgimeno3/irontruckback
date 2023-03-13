@@ -37,63 +37,6 @@ router.post("/new", (req, res, next) => {
         })
         .catch(err => next(err))
 });
-// router.post("/new", (req, res, next) => {
-//     const { author, creationDate, pickUpDireccion, pickUpProvince, deliveryDireccion, deliveryProvince, pallets } = req.body;
-//     console.log(req.body)
-//     Shipment.create({ author, creationDate, pickUpDireccion, pickUpProvince, deliveryDireccion, deliveryProvince, pallets })
-//         // .then(response => {
-//         //     console.log(response)
-
-//         //     // return Sender.findByIdAndUpdate(author, { $push: { createdShipments: response } }, { new: true })
-//         // })
-//         .then((data) => {
-//              res.json(response) })
-
-//         .catch(err => next(err))
-// });
-
-
-<<<<<<< HEAD
-
-=======
-                .catch(err => next(err))
-        });
-
-=======
-        .catch(err => next(err))
->>>>>>> ef18347 (arreglado)
-});
-
-// router.post("/new", (req, res, next) => {
-//     const { author, creationDate, pickUpDireccion, pickUpProvince, deliveryDireccion, deliveryProvince, pallets } = req.body;
-//     console.log(req.body)
-//     Shipment.create({ author, creationDate, pickUpDireccion, pickUpProvince, deliveryDireccion, deliveryProvince, pallets })
-//         // .then(response => {
-//         //     console.log(response)
-
-//         //     // return Sender.findByIdAndUpdate(author, { $push: { createdShipments: response } }, { new: true })
-//         // })
-//         .then((data) => {
-//              res.json(response) })
-
-//         .catch(err => next(err))
-// });
-
-// router.post("/new", (req, res, next) => {
-//     const { author, creationDate, pickUpDireccion, pickUpProvince, deliveryDireccion, deliveryProvince, pallets } = req.body;
-//     console.log(req.body)
-//     Shipment.create({ author, creationDate, pickUpDireccion, pickUpProvince, deliveryDireccion, deliveryProvince, pallets })
-//         // .then(response => {
-//         //     console.log(response)
-
-//         //     // return Sender.findByIdAndUpdate(author, { $push: { createdShipments: response } }, { new: true })
-//         // })
-//         .then((data) => {
-//              res.json(response) })
-
->>>>>>> 1ad98d9 ( ahora vengo de mi rama i lo arreglo)
-//         .catch(err => next(err))
-// });
 
 
 router.put("/edit/:idshipment", (req, res, next) => {
@@ -111,7 +54,6 @@ router.delete("/delete/:id", (req, res, next) => {
     const { idShipment } = req.params;
     Shipment.findByIdAndDelete(idShipment)
         .then(response => {
-<<<<<<< HEAD
             console.log(response)
 
         })
@@ -148,8 +90,6 @@ router.delete("/delete/:id", (req, res, next) => {
 // });
 
 
-=======
->>>>>>> 2eb49a0 (se vienen cositas)
 router.put("/edit/:idshipment", (req, res, next) => {
     const { idShipment } = req.params;
     const { pickUpDireccion, pickUpProvince, deliveryDireccion, deliveryProvince, pallets } = req.body;
@@ -181,24 +121,5 @@ router.get("/:idShipment", (req, res, next) => {
         })
         .catch(err => next(err))
 });
-
-=======
-            res.json({ resultado: "ok" });
-        })
-        .catch(err => next(err))
-});
-
-///api/projects/:idProject
-router.get("/:idShipment", (req, res, next) => {
-    const { idShipment } = req.params;
-    Shipment.findById(idShipment)
-        .populate("author")
-        .then(result => {
-            console.log("RESULT: ", result);
-            res.json(result);
-        })
-        .catch(err => next(err))
-});
-
 
 module.exports = router;
