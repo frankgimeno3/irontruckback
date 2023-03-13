@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+
 // const fileUploader = require('../config/cloudinary.config');
 
 // ℹ️ Handles password encryption
@@ -15,13 +16,14 @@ const saltRounds = 10;
 
 // POST /transportist/signup  - Creates a new transportist in the database
 router.post("/signup", (req, res, next) => {
-    const { email, password, name, phoneNumber, image, licensePlate, profesionaltype, company, nif, savedShipments, currentShipments, completedShipments, rejectedShipments, isAdmin } = req.body;
+    const { email, password, name, phoneNumber, image, licensePlate, professionaltype, company, nif, savedShipments, currentShipments, completedShipments, rejectedShipments, isAdmin } = req.body;
 
     // Check if email or password or name are provided as empty strings
-    if (email === "" || password === "" || name === "" || phoneNumber === "" || address === "" || licensePlate || profesionaltype === "" || nif === "") {
+    if (email === "" || password === "" || name === "") {
         res.status(400).json({ message: "Provide all camps" });
         return;
     }
+    // || phoneNumber === "" || licensePlate || professionaltype === "" || nif === ""
 
     // This regular expression check that the email is of a valid format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -51,7 +53,7 @@ router.post("/signup", (req, res, next) => {
     }
 
     // Check the Tranpotist collection if a transportist with the same email already exists
-    Tranportist.findOne({ email, phoneNumber, nif, matricula })
+    Transportist.findOne({ email, phoneNumber, nif, })
         .then((foundTransportist) => {
             // If the user with the same email already exists, send an error response
             if (foundTransportist) {
@@ -71,10 +73,10 @@ router.post("/signup", (req, res, next) => {
         .then((createdTransportist) => {
             // Deconstruct the newly created user object to omit the password
             // We should never expose passwords publicly
-            const { email, name, _id, phoneNumber, image, licensePlate, profesionaltype, company, nif, savedShipments, currentShipments, completedShipments, rejectedShipments, isAdmin } = createdTransportist;
+            const { email, name, _id, phoneNumber, image, licensePlate, professionaltype, company, nif, savedShipments, currentShipments, completedShipments, rejectedShipments, isAdmin } = createdTransportist;
 
             // Create a new object that doesn't expose the password
-            const transportist = { email, name, _id, phoneNumber, image, licensePlate, profesionaltype, company, nif, savedShipments, currentShipments, completedShipments, rejectedShipments, isAdmin };
+            const transportist = { email, name, _id, phoneNumber, image, licensePlate, professionaltype, company, nif, savedShipments, currentShipments, completedShipments, rejectedShipments, isAdmin };
 
             // Send a json response containing the user object
             res.status(201).json({ tranportist: transportist });
@@ -106,10 +108,10 @@ router.post("/login", (req, res, next) => {
 
             if (passwordCorrect) {
                 // Deconstruct the user object to omit the password
-                const { _id, email, name, phoneNumber, image, licensePlate, profesionaltype, company, nif, savedShipments, currentShipments, completedShipments, rejectedShipments, isAdmin } = foundTransportist;
+                const { _id, email, name, isTransportis } = foundTransportist;
 
                 // Create an object that will be set as the token payload
-                const payload = { _id, email, name, phoneNumber, image, licensePlate, profesionaltype, company, nif, savedShipments, currentShipments, completedShipments, rejectedShipments, isAdmin };
+                const payload = { _id, email, name, isTransportist: true };
 
                 // Create a JSON Web Token and sign it
                 const authToken = jwt.sign(payload, process.env.TOKEN_SECRET, {

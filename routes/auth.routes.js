@@ -15,7 +15,7 @@ const saltRounds = 10;
 
 // POST /auth/signup  - Creates a new sender in the database
 router.post("/signup", (req, res, next) => {
-  const { email, password, name, image, phoneNumber, address, createdShipments, currentShipments, completedShipments, rejectedShipments} = req.body;
+  const { email, password, name, image, phoneNumber, address, createdShipments, currentShipments, completedShipments, rejectedShipments } = req.body;
 
   // Check if email or password or name are provided as empty strings
   if (email === "" || password === "" || name === "" || phoneNumber === "" || address === "") {
@@ -106,10 +106,10 @@ router.post("/login", (req, res, next) => {
 
       if (passwordCorrect) {
         // Deconstruct the sender object to omit the password
-        const { _id, email, password, name, image, phoneNumber, address, createdShipments, currentShipments, completedShipments, rejectedShipments} = foundSender;
+        const { _id, email, password, name, image, phoneNumber, address, createdShipments, currentShipments, completedShipments, rejectedShipments } = foundSender;
 
         // Create an object that will be set as the token payload
-        const payload = { _id, email, password, name, image, phoneNumber, address, createdShipments, currentShipments, completedShipments, rejectedShipments};
+        const payload = { _id, email, password, name, image, phoneNumber, address, createdShipments, currentShipments, completedShipments, rejectedShipments };
 
         // Create a JSON Web Token and sign it
         const authToken = jwt.sign(payload, process.env.TOKEN_SECRET, {

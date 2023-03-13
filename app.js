@@ -17,14 +17,15 @@ require("./config")(app);
 // 👇 Start handling routes here
 const ShipmentRoutes = require("./routes/Shipment.routes");
 app.use("/api/Shipment", ShipmentRoutes);
+
 const indexRoutes = require("./routes/index.routes");
 app.use("/api", indexRoutes);
 
 const authRoutes = require("./routes/auth.routes");
 app.use("/auth", authRoutes);
 
-const transRoutes = require("./routes/transp.routes");
-app.use("/transportist", authRoutes);
+const transpRoutes = require("./routes/transp.routes");
+app.use("/transportist", transpRoutes);
 
 const shipmentRoutes = require("./routes/shipment.routes");
 app.use("/api/shipment", shipmentRoutes)

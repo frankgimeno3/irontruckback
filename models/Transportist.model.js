@@ -26,7 +26,10 @@ const transportistSchema = new Schema(
             type: String,
         },
 
-        phoneNumber: String,
+        phoneNumber: {
+            type: String,
+            required: [true, "License Plate is required"],
+        },
 
         licensePlate: {
             type: String,
@@ -71,6 +74,6 @@ const transportistSchema = new Schema(
     }
 );
 
-const Transportista = model("Comment", transportistSchema);
+const Transportista = model("Transportist", transportistSchema);
 
 module.exports = Transportista;
