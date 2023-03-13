@@ -47,142 +47,100 @@ router.put("/:id", isAuthenticated, fileUploader.single("imageUrl"), (req, res, 
     }
   });
 
+});
 
 
-  // PUT /" => Route that receives the image, sends it to Cloudinary via the fileUploader and returns the image URL
-  router.put("/:id", isAuthenticated, fileUploader.single("imageUrl"), (req, res, next) => {
-    const { idProject } = req.params;
-    const { email, name, phoneNumber, address, password, repeatPassword } = req.body;
-    const updateFields = { email, name, phoneNumber, address, password, repeatPassword };
+// PUT /" => Route that receives the image, sends it to Cloudinary via the fileUploader and returns the image URL
+router.put("/:id", isAuthenticated, fileUploader.single("imageUrl"), (req, res, next) => {
+  const { idProject } = req.params;
+  const { email, name, phoneNumber, address, password, repeatPassword } = req.body;
+  const updateFields = { email, name, phoneNumber, address, password, repeatPassword };
 
-    if (password !== repeatPassword) {
-      res.status(400).json({ message: "Password and repeat password must be the same" });
-      return;
-    }
+  if (password !== repeatPassword) {
+    res.status(400).json({ message: "Password and repeat password must be the same" });
+    return;
+  }
 
-    if (email === "" || password === "" || name === "" || phoneNumber === "" || address === "") {
-      res.status(400).json({ message: "Provide all fields" });
-      return;
-    }
+  if (email === "" || password === "" || name === "" || phoneNumber === "" || address === "") {
+    res.status(400).json({ message: "Provide all fields" });
+    return;
+  }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-    if (!emailRegex.test(email)) {
-      res.status(400).json({ message: "Provide a valid email address." });
-      return;
-    }
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  if (!emailRegex.test(email)) {
+    res.status(400).json({ message: "Provide a valid email address." });
+    return;
+  }
 
-    if (!phoneNumber.length === 9) {
-      res.status(400).json({
-        message: "The phoneNumber is not correct",
-      });
-      return;
-    }
+  if (!phoneNumber.length === 9) {
+    res.status(400).json({
+      message: "The phoneNumber is not correct",
+    });
+    return;
+  }
 
-    const passwordRegex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
-    if (!passwordRegex.test(password)) {
-      res.status(400).json({
-        message:
-          "Password must have at least 6 characters and contain at least one number, one lowercase and one uppercase letter.",
-      });
-      return;
-    }
+  const passwordRegex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
+  if (!passwordRegex.test(password)) {
+    res.status(400).json({
+      message:
+        "Password must have at least 6 characters and contain at least one number, one lowercase and one uppercase letter.",
+    });
+    return;
+  }
 
-    let salt = bcrypt.genSaltSync(saltRounds);
-    let hashedPass = bcrypt.hashSync(password, salt);
-    updateFields.password = hashedPass;
+  let salt = bcrypt.genSaltSync(saltRounds);
+  let hashedPass = bcrypt.hashSync(password, salt);
+  updateFields.password = hashedPass;
 
-    if (req.file) {
-      console.log("req.file.path:", req.file.secure_url)
-      updateFields.image = req.file.secure_url;
-    }// console.log("file is: ", req.file)
-
-
-    if (!licensePlate) {
-
-      Sender.findByIdAndUpdate(idProject, updateFields, { new: true })
-        .then(response => {
-          console.log(response.data);
-          if (req.file) res.json({ fileUrl: req.file.secure_url });
-          res.status(200).json(req.payload);
-        })
-        .catch(err => next(err))
-    }
+  if (req.file) {
+    console.log("req.file.path:", req.file.secure_url)
+    updateFields.image = req.file.secure_url;
+  }// console.log("file is: ", req.file)
 
 
-    if (licensePlate) {
-      Transportist.findByIdAndUpdate(idProject, updateFields, { new: true })
-        .then(response => {
-          console.log(response.data);
-          if (req.file) res.json({ fileUrl: req.file.secure_url });
-          res.status(200).json(req.payload);
-        })
-        .catch(err => next(err))
-    }
+  if (!licensePlate) {
 
-    // Get the URL of the uploaded file and send it as a response.
-    // 'fileUrl' can be any name, just make sure you remember to use the same when accessing it on the frontend
-
-    res.json({ fileUrl: req.file.secure_url });
-  });
-
-  // POST '/api/movies' => for saving a new movie in the database
-  router.post('/movies', (req, res, next) => {
-    // console.log('body: ', req.body); ==> here we can see that all
-    // the fields have the same names as the ones in the model so we can simply pass
-    // req.body to the .create() method
-
-    Movie.create(req.body)
-      .then(createdMovie => {
-        // console.log('Created new movie: ', createdMovie);
-        res.status(200).json(createdMovie);
+    Sender.findByIdAndUpdate(idProject, updateFields, { new: true })
+      .then(response => {
+        console.log(response.data);
+        if (req.file) res.json({ fileUrl: req.file.secure_url });
+        res.status(200).json(req.payload);
       })
-      .catch(err => next(err));
-  });
-
-  module.exports = router;
+      .catch(err => next(err))
+  }
 
 
-// // PUT /" => Route that receives the image, sends it to Cloudinary via the fileUploader and returns the image URL
-// router.put ("/:id", isAuthenticated, fileUploader.single("imageUrl"), (req, res, next) => {
-//   const { idProject } = req.params;
-//   // console.log("file is: ", req.file)
-//   const { email, name, _id, phoneNumber, address } = req.body;
-//   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-//   if (!emailRegex.test(email)) {
-//     res.status(400).json({ message: "Provide a valid email address." });
-//     return;
-//   }
-//   if (!phoneNumber.length === 9) {
-//     res.status(400).json({
-//       message:
-//         "The phoneNumber is not correct",
-//     });
-//     return;
-//   }
-//   if (!req.file) {
-//     next(new Error("No file uploaded!"));
-//     return;
-//   }
+  if (licensePlate) {
+    Transportist.findByIdAndUpdate(idProject, updateFields, { new: true })
+      .then(response => {
+        console.log(response.data);
+        if (req.file) res.json({ fileUrl: req.file.secure_url });
+        res.status(200).json(req.payload);
+      })
+      .catch(err => next(err))
+  }
 
-//   // Get the URL of the uploaded file and send it as a response.
-//   // 'fileUrl' can be any name, just make sure you remember to use the same when accessing it on the frontend
+  // Get the URL of the uploaded file and send it as a response.
+  // 'fileUrl' can be any name, just make sure you remember to use the same when accessing it on the frontend
 
-//   res.json({ fileUrl: req.file.secure_url });
-// });
+  // Get the URL of the uploaded file and send it as a response.
+  // 'fileUrl' can be any name, just make sure you remember to use the same when accessing it on the frontend
 
-// // POST '/api/movies' => for saving a new movie in the database
-// router.post('/movies', (req, res, next) => {
-//   // console.log('body: ', req.body); ==> here we can see that all
-//   // the fields have the same names as the ones in the model so we can simply pass
-//   // req.body to the .create() method
+  res.json({ fileUrl: req.file.secure_url });
+});
 
-//   Movie.create(req.body)
-//     .then(createdMovie => {
-//       // console.log('Created new movie: ', createdMovie);
-//       res.status(200).json(createdMovie);
-//     })
-//     .catch(err => next(err));
-// });
+// POST '/api/movies' => for saving a new movie in the database
+router.post('/movies', (req, res, next) => {
+  // console.log('body: ', req.body); ==> here we can see that all
+  // the fields have the same names as the ones in the model so we can simply pass
+  // req.body to the .create() method
 
-// module.exports = router;
+  Movie.create(req.body)
+    .then(createdMovie => {
+      // console.log('Created new movie: ', createdMovie);
+      res.status(200).json(createdMovie);
+    })
+    .catch(err => next(err));
+});
 
+module.exports = router;
