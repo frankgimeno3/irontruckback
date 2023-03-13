@@ -21,7 +21,7 @@ router.post("/new", (req, res, next) => {
         .catch(err => next(err))
 });
 
-router.put("/edit/:idShipment", (req, res, next) => {
+router.put("/edit/:idshipment", (req, res, next) => {
     const { idShipment } = req.params;
     const { pickUpDireccion, pickUpProvince, deliveryDireccion, deliveryProvince, pallets } = req.body;
 
@@ -46,7 +46,6 @@ router.get("/:idShipment", (req, res, next) => {
     const { idShipment } = req.params;
     Shipment.findById(idShipment)
         .populate("author")
-        // .populate("Request")
         .then(result => {
             console.log("RESULT: ", result);
             res.json(result);
