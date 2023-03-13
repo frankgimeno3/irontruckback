@@ -1,4 +1,5 @@
 const { Schema, model } = require("mongoose");
+const Shipment = require('./Shipment.model');
 
 // TODO: Please make sure you edit the Sender model to whatever makes sense in this case
 const senderSchema = new Schema(

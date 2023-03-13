@@ -34,21 +34,10 @@ const shipmentSchema = new Schema(
             required: true
         },
 
-        // request: {
-        //     type: Schema.Types.ObjectId, ref: "Request",
-        // },
-
-        // state: {
-        //     type: String,
-        //     enum: ["Open", "inNegociation", "Complet"],
-        //     default: "Open"
-        // }
-
     },
 
     {
-        // this second object adds extra properties: `createdAt` and `updatedAt`
-        timestamps: true,
+       timestamps: true,
     }
 );
 
