@@ -59,6 +59,7 @@ router.post("/new", (req, res, next) => {
 // });
 
 
+<<<<<<< HEAD
 
 =======
                 .catch(err => next(err))
@@ -153,6 +154,8 @@ router.delete("/delete/:id", (req, res, next) => {
 // });
 
 
+=======
+>>>>>>> 2eb49a0 (se vienen cositas)
 router.put("/edit/:idshipment", (req, res, next) => {
     const { idShipment } = req.params;
     const { pickUpDireccion, pickUpProvince, deliveryDireccion, deliveryProvince, pallets } = req.body;
