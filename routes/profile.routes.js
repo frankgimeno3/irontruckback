@@ -8,24 +8,27 @@ const Transportist = require("../models/Transportist.model");
 const Sender = require("../models/Sender.model");
 
 
-// // ********* require fileUploader in order to use it *********
+const Transportist = require("../models/Transportist.model");
+const Sender = require("../models/Sender.model");
+
+
+// ********* require fileUploader in order to use it *********
 const fileUploader = require("../config/cloudinary.config");
 const { isAuthenticated } = require("../middleware/jwt.middleware");
 
-// GET "/:id" => Route to your profile
-router.get("/:id", isAuthenticated, (req, res, next) => {
-  const { idProject } = user._id;
-  const { licensePlate } = user.licensePlate;
-  const { id: idProject } = req.params;
-  // const { licensePlate } = user.licensePlate;
 
-  if (!licensePlate)
-    Sender.findById({ idProject })
-      .then(result => {
-        res.json(result);
-      })
-      .catch(err => next(err))
-  if (licensePlate)
+
+// PUT /" => Route that receives the image, sends it to Cloudinary via the fileUploader and returns the image URL
+router.put("/:id", isAuthenticated, fileUploader.single("imageUrl"), (req, res, next) => {
+  const { idProject } = req.params;
+  const { email, name, phoneNumber, address, password, repeatPassword } = req.body;
+  const updateFields = { email, name, phoneNumber, address, password, repeatPassword };
+
+  // GET "/:id" => Route to your profile
+  router.get("/:id", isAuthenticated, (req, res, next) => {
+    const { id: idProject } = req.params;
+    // const { licensePlate } = user.licensePlate;
+
     if (!req.payload.isTransportist) {
       Sender.findById({ idProject })
         .then(result => {
@@ -34,25 +37,19 @@ router.get("/:id", isAuthenticated, (req, res, next) => {
         .catch(err => next(err))
     }
 
-  if (licensePlate) {
+    if (licensePlate) {
 
-    Transportist.findById({ idProject })
-      .then(result => {
-        res.json(result);
-      })
-      .catch(err => next(err))
-    Transportist.findById({ idProject })
-      .then(result => {
-        res.json(result);
-      })
-      .catch(err => next(err))
-  }
-});
+      Transportist.findById({ idProject })
+        .then(result => {
+          res.json(result);
+        })
+        .catch(err => next(err))
+    }
+  });
 
 
 
-// PUT /" => Route that receives the image, sends it to Cloudinary via the fileUploader and returns the image URL
-router.put("/:id", isAuthenticated, fileUploader.single("imageUrl"), (req, res, next) => {
+  // PUT /" => Route that receives the image, sends it to Cloudinary via the fileUploader and returns the image URL
   router.put("/:id", isAuthenticated, fileUploader.single("imageUrl"), (req, res, next) => {
     const { idProject } = req.params;
     const { email, name, phoneNumber, address, password, repeatPassword } = req.body;
