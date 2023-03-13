@@ -13,33 +13,30 @@ const fileUploader = require("../config/cloudinary.config");
 const { isAuthenticated } = require("../middleware/jwt.middleware");
 
 
+// useEffect(() => {
+//   authenticateUser();
+// }, []);
 
-// PUT /" => Route that receives the image, sends it to Cloudinary via the fileUploader and returns the image URL
-router.put("/:id", isAuthenticated, fileUploader.single("imageUrl"), (req, res, next) => {
-  const { idProject } = req.params;
-  const { email, name, phoneNumber, address, password, repeatPassword } = req.body;
-  const updateFields = { email, name, phoneNumber, address, password, repeatPassword };
+// const {user} = useContext(AuthContext);
 
-  // GET "/:id" => Route to your profile
-  router.get("/:id", isAuthenticated, (req, res, next) => {
-    const { idProject } = user._id;
-    const { licensePlate } = user.licensePlate;
+// GET "/:id" => Route to your profile
+router.get("/:id", isAuthenticated, (req, res, next) => {
+  const { idProject } = user._id;
+  const { licensePlate } = user.licensePlate;
 
-    if (!licensePlate)
-      Sender.findById({ idProject })
-        .then(result => {
-          res.json(result);
-        })
-        .catch(err => next(err))
-    if (licensePlate)
+  if (!licensePlate)
+    Sender.findById({ idProject })
+      .then(result => {
+        res.json(result);
+      })
+      .catch(err => next(err))
+  if (licensePlate)
 
-      Transportist.findById({ idProject })
-        .then(result => {
-          res.json(result);
-        })
-        .catch(err => next(err))
-  });
-
+    Transportist.findById({ idProject })
+      .then(result => {
+        res.json(result);
+      })
+      .catch(err => next(err))
 });
 
 
@@ -86,4 +83,4 @@ router.post('/movies', (req, res, next) => {
     .catch(err => next(err));
 });
 
-module.exports = router;
+module.exports = router; 
