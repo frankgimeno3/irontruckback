@@ -29,13 +29,17 @@ router.post("/new", (req, res, next) => {
 
         .then(response => {
             return Sender.findByIdAndUpdate(author, { $push: { createdShipments: response._id } }, { new: true })
+<<<<<<< HEAD
 
+=======
+>>>>>>> ef18347 (arreglado)
         })
 
         .then(response => {
             console.log(response)
 
         })
+<<<<<<< HEAD
 <<<<<<< HEAD
         .catch(err => next(err))
 });
@@ -45,9 +49,11 @@ router.post("/new", (req, res, next) => {
                 .catch(err => next(err))
         });
 
+=======
+        .catch(err => next(err))
+>>>>>>> ef18347 (arreglado)
 });
 
-}
 // router.post("/new", (req, res, next) => {
 //     const { author, creationDate, pickUpDireccion, pickUpProvince, deliveryDireccion, deliveryProvince, pallets } = req.body;
 //     console.log(req.body)

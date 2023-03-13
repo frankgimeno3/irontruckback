@@ -8,11 +8,7 @@ const Transportist = require("../models/Transportist.model");
 const Sender = require("../models/Sender.model");
 
 
-<<<<<<< HEAD
 // ********* require fileUploader in order to use it *********
-=======
-// // ********* require fileUploader in order to use it *********
->>>>>>> 4cb9fcc (to funciona de momento)
 const fileUploader = require("../config/cloudinary.config");
 const { isAuthenticated } = require("../middleware/jwt.middleware");
 
@@ -47,34 +43,33 @@ router.put("/:id", isAuthenticated, fileUploader.single("imageUrl"), (req, res, 
     }
   });
 
+});
 
 
-  // PUT /" => Route that receives the image, sends it to Cloudinary via the fileUploader and returns the image URL
-  router.put("/:id", isAuthenticated, fileUploader.single("imageUrl"), (req, res, next) => {
-    const { idProject } = req.params;
-    // console.log("file is: ", req.file)
-    const { email, name, _id, phoneNumber, address } = req.body;
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-    if (!emailRegex.test(email)) {
-      res.status(400).json({ message: "Provide a valid email address." });
-      return;
-    }
-    if (!phoneNumber.length === 9) {
-      res.status(400).json({
-        message:
-          "The phoneNumber is not correct",
-      });
-      return;
-    }
-    if (!req.file) {
-      next(new Error("No file uploaded!"));
-      return;
-    }
 
-    // Get the URL of the uploaded file and send it as a response.
-    // 'fileUrl' can be any name, just make sure you remember to use the same when accessing it on the frontend
+// PUT /" => Route that receives the image, sends it to Cloudinary via the fileUploader and returns the image URL
+router.put("/:id", isAuthenticated, fileUploader.single("imageUrl"), (req, res, next) => {
+  const { idProject } = req.params;
+  // console.log("file is: ", req.file)
+  const { email, name, _id, phoneNumber, address } = req.body;
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  if (!emailRegex.test(email)) {
+    res.status(400).json({ message: "Provide a valid email address." });
+    return;
+  }
+  if (!phoneNumber.length === 9) {
+    res.status(400).json({
+      message:
+        "The phoneNumber is not correct",
+    });
+    return;
+  }
+  if (!req.file) {
+    next(new Error("No file uploaded!"));
+    return;
+  }
 
-    res.json({ fileUrl: req.file.secure_url });
-  });
+  // Get the URL of the uploaded file and send it as a response.
+  // 'fileUrl' can be any name, just make sure you remember to use the same when accessing it on the frontend
 
   module.exports = router; 
