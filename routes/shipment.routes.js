@@ -16,9 +16,7 @@ router.get("/", (req, res, next) => {
 
 ///api/Shipment/new
 router.post("/new", (req, res, next) => {
-    const { creationDate, pickUpDireccion, pickUpProvince, deliveryDireccion, deliveryProvince, pallets } = req.body;
-
-    const author = req.user
+    const { creationDate, pickUpDireccion, pickUpProvince, deliveryDireccion, deliveryProvince, pallets, author } = req.body;
 
     console.log(req.current)
 
