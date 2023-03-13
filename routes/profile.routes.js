@@ -12,13 +12,6 @@ const Sender = require("../models/Sender.model");
 const fileUploader = require("../config/cloudinary.config");
 const { isAuthenticated } = require("../middleware/jwt.middleware");
 
-
-// useEffect(() => {
-//   authenticateUser();
-// }, []);
-
-// const {user} = useContext(AuthContext);
-
 // GET "/:id" => Route to your profile
 router.get("/:id", isAuthenticated, (req, res, next) => {
   const { idProject } = user._id;
@@ -44,22 +37,38 @@ router.get("/:id", isAuthenticated, (req, res, next) => {
 // PUT /" => Route that receives the image, sends it to Cloudinary via the fileUploader and returns the image URL
 router.put("/:id", isAuthenticated, fileUploader.single("imageUrl"), (req, res, next) => {
   const { idProject } = req.params;
-  // console.log("file is: ", req.file)
-  const { email, name, _id, phoneNumber, address } = req.body;
+  const { email, name, phoneNumber, address, password, repeatPassword } = req.body;
+  const updateFields = { email, name, phoneNumber, address, password, repeatPassword };
+
+  if (password !== repeatPassword) {
+    res.status(400).json({ message: "Password and repeat password must be the same" });
+    return;
+  }
+
+  if (email === "" || password === "" || name === "" || phoneNumber === "" || address === "") {
+    res.status(400).json({ message: "Provide all fields" });
+    return;
+  }
+
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
   if (!emailRegex.test(email)) {
     res.status(400).json({ message: "Provide a valid email address." });
     return;
   }
+
   if (!phoneNumber.length === 9) {
     res.status(400).json({
-      message:
-        "The phoneNumber is not correct",
+      message: "The phoneNumber is not correct",
     });
     return;
   }
-  if (!req.file) {
-    next(new Error("No file uploaded!"));
+
+  const passwordRegex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
+  if (!passwordRegex.test(password)) {
+    res.status(400).json({
+      message:
+        "Password must have at least 6 characters and contain at least one number, one lowercase and one uppercase letter.",
+    });
     return;
   }
 
