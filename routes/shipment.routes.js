@@ -206,5 +206,5 @@ router.get("/:idShipment", (req, res, next) => {
         .catch(err => next(err))
 });
 
->>>>>>> 1ad98d9 ( ahora vengo de mi rama i lo arreglo)
+
 module.exports = router;
