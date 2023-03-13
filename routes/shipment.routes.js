@@ -36,8 +36,18 @@ router.post("/new", (req, res, next) => {
             console.log(response)
 
         })
+<<<<<<< HEAD
         .catch(err => next(err))
 });
+
+
+=======
+                .catch(err => next(err))
+        });
+
+});
+
+}
 // router.post("/new", (req, res, next) => {
 //     const { author, creationDate, pickUpDireccion, pickUpProvince, deliveryDireccion, deliveryProvince, pallets } = req.body;
 //     console.log(req.body)
@@ -65,6 +75,7 @@ router.post("/new", (req, res, next) => {
 //         .then((data) => {
 //              res.json(response) })
 
+>>>>>>> 1ad98d9 ( ahora vengo de mi rama i lo arreglo)
 //         .catch(err => next(err))
 // });
 
@@ -84,6 +95,7 @@ router.delete("/delete/:id", (req, res, next) => {
     const { idShipment } = req.params;
     Shipment.findByIdAndDelete(idShipment)
         .then(response => {
+<<<<<<< HEAD
             console.log(response)
 
         })
@@ -152,4 +164,23 @@ router.get("/:idShipment", (req, res, next) => {
         .catch(err => next(err))
 });
 
+=======
+            res.json({ resultado: "ok" });
+        })
+        .catch(err => next(err))
+});
+
+///api/projects/:idProject
+router.get("/:idShipment", (req, res, next) => {
+    const { idShipment } = req.params;
+    Shipment.findById(idShipment)
+        .populate("author")
+        .then(result => {
+            console.log("RESULT: ", result);
+            res.json(result);
+        })
+        .catch(err => next(err))
+});
+
+>>>>>>> 1ad98d9 ( ahora vengo de mi rama i lo arreglo)
 module.exports = router;
