@@ -18,7 +18,7 @@ router.post("/signup", (req, res, next) => {
     const { email, password, name, phoneNumber, image, licensePlate, profesionaltype, company, nif, savedShipments, currentShipments, completedShipments, rejectedShipments, isAdmin } = req.body;
 
     // Check if email or password or name are provided as empty strings
-    if (email === "" || password === "" || name === "" || phoneNumber === "" || address === "" || licensePlate || profesionaltype === "" || nif === "") {
+    if (email === "" || password === "" || name === "" || phoneNumber === "" || licensePlate === "" || profesionaltype === "" || nif === "") {
         res.status(400).json({ message: "Provide all camps" });
         return;
     }
@@ -106,10 +106,10 @@ router.post("/login", (req, res, next) => {
 
             if (passwordCorrect) {
                 // Deconstruct the user object to omit the password
-                const { _id, email, name, phoneNumber, image, licensePlate, profesionaltype, company, nif, savedShipments, currentShipments, completedShipments, rejectedShipments, isAdmin } = foundTransportist;
+                const { _id, email, name, isAdmin } = foundTransportist;
 
                 // Create an object that will be set as the token payload
-                const payload = { _id, email, name, phoneNumber, image, licensePlate, profesionaltype, company, nif, savedShipments, currentShipments, completedShipments, rejectedShipments, isAdmin };
+                const payload = { _id, email, name, isAdmin, isTransportist: true };
 
                 // Create a JSON Web Token and sign it
                 const authToken = jwt.sign(payload, process.env.TOKEN_SECRET, {

@@ -4,27 +4,26 @@ const router = express.Router();
 const Transportist = require("../models/Transportist.model");
 const Sender = require("../models/Sender.model");
 
-
 // ********* require fileUploader in order to use it *********
 const fileUploader = require("../config/cloudinary.config");
 const { isAuthenticated } = require("../middleware/jwt.middleware");
 
 // GET "/:id" => Route to your profile
 router.get("/:id", isAuthenticated, (req, res, next) => {
-  const { id: idProject } = req.params;
+  const { id } = req.params;
   // const { licensePlate } = user.licensePlate;
 
   if (!req.payload.isTransportist) {
-    Sender.findById({ idProject })
+    Sender.findById({ id })
       .then(result => {
         res.json(result);
       })
-      .catch(err => next(err))
+      .catch(err => console.log(err))
   }
 
-  if (licensePlate) {
+  if (req.payload.isTransportist) {
 
-    Transportist.findById({ idProject })
+    Transportist.findById({ id })
       .then(result => {
         res.json(result);
       })
@@ -36,16 +35,16 @@ router.get("/:id", isAuthenticated, (req, res, next) => {
 
 // PUT /" => Route that receives the image, sends it to Cloudinary via the fileUploader and returns the image URL
 router.put("/:id", isAuthenticated, fileUploader.single("imageUrl"), (req, res, next) => {
-  const { idProject } = req.params;
-  const { email, name, phoneNumber, address, password, repeatPassword } = req.body;
-  const updateFields = { email, name, phoneNumber, address, password, repeatPassword };
+  const { id } = req.params;
+  const { phoneNumber, address, password, repeatPassword } = req.body;
+  const updateFields = { phoneNumber, address, password, repeatPassword };
 
   if (password !== repeatPassword) {
     res.status(400).json({ message: "Password and repeat password must be the same" });
     return;
   }
 
-  if (email === "" || password === "" || name === "" || phoneNumber === "" || address === "") {
+  if (password === "" || phoneNumber === "" || phoneNumber === "" || address === "") {
     res.status(400).json({ message: "Provide all fields" });
     return;
   }
@@ -81,9 +80,9 @@ router.put("/:id", isAuthenticated, fileUploader.single("imageUrl"), (req, res, 
   }// console.log("file is: ", req.file)
 
 
-  if (!licensePlate) {
+  if (!req.payload.isTransportist) {
 
-    Sender.findByIdAndUpdate ( idProject, updateFields, { new: true } )
+    Sender.findByIdAndUpdate ( id, updateFields, { new: true } )
     .then(response => {
       console.log(response.data);
       if(req.file) res.json({ fileUrl: req.file.secure_url });
@@ -93,8 +92,8 @@ router.put("/:id", isAuthenticated, fileUploader.single("imageUrl"), (req, res, 
   }
 
 
-  if (licensePlate) {
-    Transportist.findByIdAndUpdate ( idProject, updateFields, { new: true } )
+  if (req.payload.isTransportist) {
+    Transportist.findByIdAndUpdate ( id, updateFields, { new: true } )
         .then(response => {
       console.log(response.data);
       if(req.file) res.json({ fileUrl: req.file.secure_url });
