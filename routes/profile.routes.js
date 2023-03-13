@@ -49,36 +49,55 @@ Transportist.findById({ idProject })
   .catch(err => next(err))
 });
 
+// useEffect(() => {
+//   authenticateUser();
+// }, []);
 
-// PUT /" => Route that receives the image, sends it to Cloudinary via the fileUploader and returns the image URL
-router.put("/:id", isAuthenticated, fileUploader.single("imageUrl"), (req, res, next) => {
-  const { idProject } = req.params;
-  const { email, name, phoneNumber, address, password, repeatPassword } = req.body;
-  const updateFields = { email, name, phoneNumber, address, password, repeatPassword };
+// const {user} = useContext(AuthContext);
 
-  // GET "/:id" => Route to your profile
-  router.get("/:id", isAuthenticated, (req, res, next) => {
-    const { id: idProject } = req.params;
-    // const { licensePlate } = user.licensePlate;
+<<<<<<< HEAD
+// GET "/:id" => Route to your profile
+router.get("/:id", isAuthenticated, (req, res, next) => {
+  const { id: idProject } = req.params;
+  // const { licensePlate } = user.licensePlate;
 
-    if (!req.payload.isTransportist) {
-      Sender.findById({ idProject })
-        .then(result => {
-          res.json(result);
-        })
-        .catch(err => next(err))
-    }
+  if (!req.payload.isTransportist) {
+    Sender.findById({ idProject })
+      .then(result => {
+        res.json(result);
+      })
+      .catch(err => next(err))
+  }
 
-    if (licensePlate) {
+  if (licensePlate) {
 
-      Transportist.findById({ idProject })
-        .then(result => {
-          res.json(result);
-        })
-        .catch(err => next(err))
-    }
-  });
+    Transportist.findById({ idProject })
+      .then(result => {
+        res.json(result);
+      })
+      .catch(err => next(err))
+  }
+});
+=======
+// GET "/:id" => Route to your profile
+router.get("/:id", isAuthenticated, (req, res, next) => {
+  const { idProject } = user._id;
+  const { licensePlate } = user.licensePlate;
 
+  if (!licensePlate)
+    Sender.findById({ idProject })
+      .then(result => {
+        res.json(result);
+      })
+      .catch(err => next(err))
+  if (licensePlate)
+>>>>>>> a29d311 (con profile llamando a payload pero no a back)
+
+Transportist.findById({ idProject })
+  .then(result => {
+    res.json(result);
+  })
+  .catch(err => next(err))
 });
 
 
