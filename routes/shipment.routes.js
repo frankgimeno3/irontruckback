@@ -5,7 +5,6 @@ const Sender = require("../models/Sender.model");
 const { isAuthenticated } = require("../middleware/jwt.middleware");
 
 
-
 router.get("/", (req, res, next) => {
     Shipment.find()
         .populate("author")
@@ -17,7 +16,9 @@ router.get("/", (req, res, next) => {
 
 ///api/Shipment/new
 router.post("/new", (req, res, next) => {
-    const { creationDate, pickUpDireccion, pickUpProvince, deliveryDireccion, deliveryProvince, pallets, author } = req.body;
+    const { creationDate, pickUpDireccion, pickUpProvince, deliveryDireccion, deliveryProvince, pallets } = req.body;
+
+    const author = req.user
 
     console.log(req.current)
 
