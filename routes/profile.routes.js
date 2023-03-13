@@ -6,8 +6,8 @@ const Sender = require("../models/Sender.model");
 
 
 // // ********* require fileUploader in order to use it *********
-// const fileUploader = require("../config/cloudinary.config");
-// const { isAuthenticated } = require("../middleware/jwt.middleware");
+const fileUploader = require("../config/cloudinary.config");
+const { isAuthenticated } = require("../middleware/jwt.middleware");
 
 // GET "/:id" => Route to your profile
 router.get("/:id", isAuthenticated, (req, res, next) => {
