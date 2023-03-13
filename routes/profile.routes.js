@@ -12,7 +12,15 @@ const Transportist = require("../models/Transportist.model");
 const Sender = require("../models/Sender.model");
 
 
+const Transportist = require("../models/Transportist.model");
+const Sender = require("../models/Sender.model");
+
+
+<<<<<<< HEAD
 // ********* require fileUploader in order to use it *********
+=======
+// // ********* require fileUploader in order to use it *********
+>>>>>>> 4cb9fcc (to funciona de momento)
 const fileUploader = require("../config/cloudinary.config");
 const { isAuthenticated } = require("../middleware/jwt.middleware");
 
