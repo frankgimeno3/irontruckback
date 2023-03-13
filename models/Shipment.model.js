@@ -38,7 +38,6 @@ const shipmentSchema = new Schema(
 
     {
         timestamps: true,
-
     }
 );
 
