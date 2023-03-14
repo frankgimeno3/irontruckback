@@ -3,9 +3,7 @@ const Shipment = require("../models/Shipment.model");
 const Sender = require("../models/Sender.model");
 // import { AuthContext } from "../../irontruck/src/context/auth.context";
 const { isAuthenticated } = require("../middleware/jwt.middleware");
-const Sender = require("../models/Sender.model");
-// import { AuthContext } from "../../irontruck/src/context/auth.context";
-const { isAuthenticated } = require("../middleware/jwt.middleware");
+
 
 
 router.get("/", (req, res, next) => {
