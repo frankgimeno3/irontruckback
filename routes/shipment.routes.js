@@ -26,8 +26,10 @@ router.post("/new", (req, res, next) => {
     console.log(req.body)
 
     Shipment.create({ author, creationDate, pickUpDireccion, pickUpProvince, deliveryDireccion, deliveryProvince, pallets, author })
+
         .then(response => {
             return Sender.findByIdAndUpdate(author, { $push: { createdShipments: response._id } }, { new: true })
+
         })
 
         .then(response => {
