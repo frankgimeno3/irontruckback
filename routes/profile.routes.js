@@ -13,7 +13,7 @@ router.get("/:id", isAuthenticated, (req, res, next) => {
   const { id: id } = req.params;
   
   if (!req.payload.isTransportist) {
-    Sender.findById({ id })
+    Sender.findById(id)
       .then(result => {
         res.json(result);
       })
@@ -22,7 +22,7 @@ router.get("/:id", isAuthenticated, (req, res, next) => {
 
   if (req.payload.isTransportist) {
 
-    Transportist.findById({ id })
+    Transportist.findById( id )
       .then(result => {
         res.json(result);
       })
@@ -34,7 +34,7 @@ router.get("/:id", isAuthenticated, (req, res, next) => {
 
 // PUT /" => Route that receives the image, sends it to Cloudinary via the fileUploader and returns the image URL
 router.put("/:id", isAuthenticated, fileUploader.single("imageUrl"), (req, res, next) => {
-  const { id: _id } = req.params;
+  const { id: id } = req.params;
   const { phoneNumber, address, password, repeatPassword } = req.body;
   const updateFields = { phoneNumber, address, password, repeatPassword };
 
