@@ -21,9 +21,11 @@ const { isAuthenticated } = require("../middleware/jwt.middleware");
 // GET "/:id" => Route to your profile
 router.get("/:id", isAuthenticated, (req, res, next) => {
   const { id: id } = req.params;
-  
+
+
   if (!req.payload.isTransportist) {
     Sender.findById(id)
+      .populate("createdShipments")
       .then(result => {
         res.json(result);
       })
@@ -32,11 +34,12 @@ router.get("/:id", isAuthenticated, (req, res, next) => {
 
   if (req.payload.isTransportist) {
 
-    Transportist.findById( id )
+    Transportist.findById(id)
       .then(result => {
         res.json(result);
       })
       .catch(err => next(err))
+  }
 });
 
 
@@ -82,23 +85,23 @@ router.put("/:id", isAuthenticated, fileUploader.single("imageUrl"), (req, res, 
 
   if (!req.payload.isTransportist) {
 
-    Sender.findByIdAndUpdate ( id, updateFields, { new: true } )
-    .then(response => {
-      console.log(response.data);
-      if(req.file) res.json({ fileUrl: req.file.secure_url });
-      res.status(200).json(req.payload);
-    })
+    Sender.findByIdAndUpdate(id, updateFields, { new: true })
+      .then(response => {
+        console.log(response.data);
+        if (req.file) res.json({ fileUrl: req.file.secure_url });
+        res.status(200).json(req.payload);
+      })
       .catch(err => next(err))
   }
 
 
   if (req.payload.isTransportist) {
-    Transportist.findByIdAndUpdate ( id, updateFields, { new: true } )
-        .then(response => {
-      console.log(response.data);
-      if(req.file) res.json({ fileUrl: req.file.secure_url });
-      res.status(200).json(req.payload);
-    })
+    Transportist.findByIdAndUpdate(id, updateFields, { new: true })
+      .then(response => {
+        console.log(response.data);
+        if (req.file) res.json({ fileUrl: req.file.secure_url });
+        res.status(200).json(req.payload);
+      })
       .catch(err => next(err))
   }
 
