@@ -9,7 +9,6 @@ const shipmentSchema = new Schema(
 
         creationDate: {
             type: Date,
-            required: true
         },
 
         pickUpDireccion: {
