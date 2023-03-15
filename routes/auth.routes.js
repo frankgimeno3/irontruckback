@@ -42,13 +42,13 @@ router.post("/signup", (req, res, next) => {
 
   //Check the phoneNumber is 9 caracters length
 
-  if (!phoneNumber.length === 9) {
-    res.status(400).json({
-      message:
-        "The phoneNumber is not correct",
-    });
-    return;
-  }
+  // if (!phoneNumber.length === 9) {
+  //   res.status(400).json({
+  //     message:
+  //       "The phoneNumber is not correct",
+  //   });
+  //   return;
+  // }
 
   // Check the sender collection if a sender with the same email already exists
   Sender.findOne({ email, phoneNumber })

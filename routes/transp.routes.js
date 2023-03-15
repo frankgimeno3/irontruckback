@@ -43,13 +43,13 @@ router.post("/signup", (req, res, next) => {
 
     //Check the phoneNumber is 9 caracters length
 
-    if (!phoneNumber.length === 9) {
-        res.status(400).json({
-            message:
-                "The Phone Number is not correct",
-        });
-        return;
-    }
+    // if (!phoneNumber.length === 9) {
+    //     res.status(400).json({
+    //         message:
+    //             "The Phone Number is not correct",
+    //     });
+    //     return;
+    // }
 
     // Check the Tranpotist collection if a transportist with the same email already exists
     Transportist.findOne({ email, phoneNumber, nif, })
