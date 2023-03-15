@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const Shipment = require("../models/Shipment.model");
 const Sender = require("../models/Sender.model");
+const Transportist = require("../models/Transportist.model")
 // import { AuthContext } from "../../irontruck/src/context/auth.context";
 const { isAuthenticated } = require("../middleware/jwt.middleware");
 
@@ -52,21 +53,27 @@ router.post("/new", (req, res, next) => {
 // });
 
 
-router.put("/edit/:idshipment", (req, res, next) => {
+router.put("/edit/:idShipment", (req, res, next) => {
     const { idShipment } = req.params;
-    const { pickUpDireccion, pickUpProvince, deliveryDireccion, deliveryProvince, pallets } = req.body;
 
-    Shipment.findByIdAndUpdate(idShipment, { pickUpDireccion, pickUpProvince, deliveryDireccion, deliveryProvince, pallets }, { new: true })
-        .then(result => {
-            res.json(result);
+    Shipment.findById(idShipment)
+        .then(response => {
+            if (response.state === "Created") {
+                Shipment.findByIdAndUpdate(idShipment, req.body, { new: true })
+                    .then(result => {
+                        res.json(result)
+                    }).catch(err => console.log(err))
+            }
+            res.json({ error: "La carga ya no se puede modificar" })
         })
-        .catch(err => next(err))
+        .catch(err => console.log(err))
+
 });
 ///api/projects/delete/:idProject
 router.delete("/delete/:id", (req, res, next) => {
     const { idShipment } = req.params;
     Shipment.findByIdAndDelete(idShipment)
-        .then(response => {
+        .then(result => {
             res.json({ resultado: "ok" });
         })
         .catch(err => next(err))
@@ -83,5 +90,27 @@ router.get("/:idShipment", (req, res, next) => {
         })
         .catch(err => next(err))
 });
+
+router.post('/negotiation', async (req, res) => {
+    const transpId = req.user._id;
+    const { idShipment } = req.params;
+
+    Transportist.findByIdAndUpdate(transpId, {
+        $push: { currentShipments: idShipment }
+    })
+        .then(result => {
+
+            Shipment.findByIdAndUpdate(
+                { state: inNegotiation }
+            )
+
+
+            res.json({ resultado: "añadido" });
+        })
+
+        .catch(err => next(err))
+});
+
+
 
 module.exports = router;

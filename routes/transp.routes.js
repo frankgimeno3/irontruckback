@@ -16,15 +16,14 @@ const saltRounds = 10;
 
 // POST /transportist/signup  - Creates a new transportist in the database
 router.post("/signup", (req, res, next) => {
-    const { email, password, name, phoneNumber, image, licensePlate, professionaltype, company, nif, savedShipments, currentShipments, completedShipments, rejectedShipments, isAdmin } = req.body;
+    const { email, password, name, phoneNumber, image, licensePlate, professionalType, company, nif, savedShipments, currentShipments, completedShipments, rejectedShipments, isAdmin } = req.body;
 
     // Check if email or password or name are provided as empty strings
     if (email === "" || password === "" || name === "") {
         res.status(400).json({ message: "Provide all camps" });
         return;
     }
-    // || phoneNumber === "" || licensePlate || professionaltype === "" || nif === ""
-
+    // phoneNumber === "" || licensePlate || professionalType === "" || nif === ""
     // This regular expression check that the email is of a valid format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
     if (!emailRegex.test(email)) {
@@ -73,10 +72,10 @@ router.post("/signup", (req, res, next) => {
         .then((createdTransportist) => {
             // Deconstruct the newly created user object to omit the password
             // We should never expose passwords publicly
-            const { email, name, _id, phoneNumber, image, licensePlate, professionaltype, company, nif, savedShipments, currentShipments, completedShipments, rejectedShipments, isAdmin } = createdTransportist;
+            const { email, name, _id, phoneNumber, image, licensePlate, professionalType, company, nif, savedShipments, currentShipments, completedShipments, rejectedShipments, isAdmin } = createdTransportist;
 
             // Create a new object that doesn't expose the password
-            const transportist = { email, name, _id, phoneNumber, image, licensePlate, professionaltype, company, nif, savedShipments, currentShipments, completedShipments, rejectedShipments, isAdmin };
+            const transportist = { email, name, _id, phoneNumber, image, licensePlate, professionalType, company, nif, savedShipments, currentShipments, completedShipments, rejectedShipments, isAdmin };
 
             // Send a json response containing the user object
             res.status(201).json({ tranportist: transportist });
