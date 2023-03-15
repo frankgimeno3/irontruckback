@@ -41,7 +41,6 @@ router.get("/:id", isAuthenticated, (req, res, next) => {
 
   if (!req.payload.isTransportist) {
     Sender.findById(id)
-      .populate("createdShipments")
       .then(result => {
         res.json(result);
       })
