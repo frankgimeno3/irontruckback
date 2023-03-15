@@ -38,25 +38,12 @@ router.get("/myprofile/:id", isAuthenticated, (req, res, next) => {
 router.get("/:id", isAuthenticated, (req, res, next) => {
   const { id: id } = req.params;
 
-
-  if (!req.payload.isTransportist) {
-    Sender.findById(id)
-      .populate("createdShipments")
+Sender.findById(id)
       .then(result => {
         res.json(result);
       })
       .catch(err => console.log(err))
-  }
-
-  if (req.payload.isTransportist) {
-
-    Transportist.findById(id)
-      .then(result => {
-        res.json(result);
-      })
-      .catch(err => next(err))
-  }
-});
+    })
 
 // PUT /" => Route that receives the image, sends it to Cloudinary via the fileUploader and returns the image URL
 router.put("/myprofile/:id", isAuthenticated, (req, res, next) => {
