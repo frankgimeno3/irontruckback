@@ -8,19 +8,19 @@ const { isAuthenticated } = require("../middleware/jwt.middleware.js");
 const saltRounds = 10;
 
 router.post("/signup", (req, res, next) => {
-    const { 
-        email, 
-        password, 
-        name, 
-        phoneNumber, 
-        image, 
-        licensePlate, 
-        professionalType, 
-        company, 
-        nif, 
-        currentShipments, 
-        completedShipments, 
-        rejectedShipments, 
+    const {
+        email,
+        password,
+        name,
+        phoneNumber,
+        image,
+        licensePlate,
+        professionalType,
+        company,
+        nif,
+        currentShipments,
+        completedShipments,
+        rejectedShipments,
         isAdmin } = req.body;
 
     if (email === "" || password === "" || name === "") {
@@ -43,13 +43,15 @@ router.post("/signup", (req, res, next) => {
         return;
     }
 
-    if (!phoneNumber.length === 9) {
-        res.status(400).json({
-            message:
-                "The Phone Number is not correct",
-        });
-        return;
-    }
+    //Check the phoneNumber is 9 caracters length
+
+    // if (!phoneNumber.length === 9) {
+    //     res.status(400).json({
+    //         message:
+    //             "The Phone Number is not correct",
+    //     });
+    //     return;
+    // }
 
     Transportist.findOne({ email, phoneNumber, nif, })
         .then((foundTransportist) => {
@@ -63,13 +65,13 @@ router.post("/signup", (req, res, next) => {
             return Transportist.create({ email, password: hashedPassword, name, phoneNumber, });
         })
 
-        .then((createdTransportist) => { 
+        .then((createdTransportist) => {
             const { email, name, _id, phoneNumber, image, licensePlate, professionalType, company, nif, savedShipments, currentShipments, completedShipments, rejectedShipments, isAdmin } = createdTransportist;
             const transportist = { email, name, _id, phoneNumber, image, licensePlate, professionalType, company, nif, savedShipments, currentShipments, completedShipments, rejectedShipments, isAdmin };
 
             res.status(201).json({ tranportist: transportist });
         })
-        .catch((err) => next(err));  
+        .catch((err) => next(err));
 });
 
 router.post("/login", (req, res, next) => {
@@ -104,10 +106,10 @@ router.post("/login", (req, res, next) => {
                 res.status(401).json({ message: "Unable to authenticate the transportist" });
             }
         })
-        .catch((err) => next(err));  
+        .catch((err) => next(err));
 });
 
-router.get("/verify", isAuthenticated, (req, res, next) => { 
+router.get("/verify", isAuthenticated, (req, res, next) => {
     res.status(200).json(req.payload);
 });
 

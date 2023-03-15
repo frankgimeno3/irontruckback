@@ -47,12 +47,15 @@ router.post("/signup", (req, res, next) => {
     return;
   }
 
-  if (!phoneNumber.length === 9) {
-    res.status(400).json({
-      message: "The phoneNumber is not correct",
-    });
-    return;
-  }
+  //Check the phoneNumber is 9 caracters length
+
+  // if (!phoneNumber.length === 9) {
+  //   res.status(400).json({
+  //     message:
+  //       "The phoneNumber is not correct",
+  //   });
+  //   return;
+  // }
 
   Sender.findOne({ email, phoneNumber })
     .then((foundSender) => {
@@ -104,7 +107,7 @@ router.post("/signup", (req, res, next) => {
 
       res.status(201).json({ sender: sender });
     })
-    .catch((err) => next(err)); 
+    .catch((err) => next(err));
 });
 
 router.post("/login", (req, res, next) => {
@@ -142,7 +145,7 @@ router.post("/login", (req, res, next) => {
         res.status(401).json({ message: "Unable to authenticate the Sender" });
       }
     })
-    .catch((err) => next(err)); 
+    .catch((err) => next(err));
 });
 
 router.get("/verify", isAuthenticated, (req, res, next) => {
