@@ -106,7 +106,7 @@ router.post("/login", (req, res, next) => {
 
       if (passwordCorrect) {
         // Deconstruct the sender object to omit the password
-        const { _id, email, password, name, image} = foundSender;
+        const { _id, email, password, name} = foundSender;
 
         // Create an object that will be set as the token payload
         const payload = { _id, name, email, isTransportist: false};
