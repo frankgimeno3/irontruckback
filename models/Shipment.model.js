@@ -15,10 +15,12 @@ const shipmentSchema = new Schema(
             type: String,
             required: true
         },
+
         pickUpProvince: {
             type: String,
             required: true
         },
+
         deliveryDireccion: {
             type: String,
             required: true
@@ -28,10 +30,22 @@ const shipmentSchema = new Schema(
             type: String,
             required: true
         },
+
         pallets: {
             type: Number,
             required: true
         },
+        transportists: [{
+            type: Schema.Types.ObjectId, ref: "Transportist"
+        }],
+
+
+        state: {
+            enum: ["Created", "inNegotiation", "Accepted"],
+            default: "Created",
+            type: String
+        }
+
 
     },
 

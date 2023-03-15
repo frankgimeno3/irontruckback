@@ -38,9 +38,10 @@ const senderSchema = new Schema(
 
     createdShipments: [{ type: Schema.Types.ObjectId, ref: "Shipment" }],
 
-    currentShipments: [{ type: Schema.Types.ObjectId, ref: "Shipment" }],
+    inNegotitationShipments: [{ type: Schema.Types.ObjectId, ref: "Shipment" }],
 
     completedShipments: [{ type: Schema.Types.ObjectId, ref: "Shipment" }],
+
     rejectedShipments: [{ type: Schema.Types.ObjectId, ref: "Shipment" }],
 
     isAdmin: {
