@@ -51,6 +51,11 @@ const transportistSchema = new Schema(
             type: String,
             // required: true,
         },
+        image: {
+            type: String,
+            default: "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/6192175/truck-driver-clipart-md.png",
+          },
+      
 
         savedShipments: { type: [Schema.Types.ObjectId], ref: "Shipment" },
 
@@ -64,6 +69,7 @@ const transportistSchema = new Schema(
             type: Boolean,
             default: false,
         }
+        
     },
 
 

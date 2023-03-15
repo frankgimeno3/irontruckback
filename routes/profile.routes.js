@@ -12,6 +12,29 @@ const fileUploader = require("../config/cloudinary.config");
 const { isAuthenticated } = require("../middleware/jwt.middleware");
 
 // GET "/:id" => Route to your profile
+router.get("/myprofile/:id", isAuthenticated, (req, res, next) => {
+  const { id: id } = req.params;
+
+
+  if (!req.payload.isTransportist) {
+    Sender.findById(id)
+      .populate("createdShipments")
+      .then(result => {
+        res.json(result);
+      })
+      .catch(err => console.log(err))
+  }
+
+  if (req.payload.isTransportist) {
+
+    Transportist.findById(id)
+      .then(result => {
+        res.json(result);
+      })
+      .catch(err => next(err))
+  }
+});
+
 router.get("/:id", isAuthenticated, (req, res, next) => {
   const { id: id } = req.params;
 
@@ -35,10 +58,8 @@ router.get("/:id", isAuthenticated, (req, res, next) => {
   }
 });
 
-
-
 // PUT /" => Route that receives the image, sends it to Cloudinary via the fileUploader and returns the image URL
-router.put("/:id", isAuthenticated, (req, res, next) => {
+router.put("/myprofile/:id", isAuthenticated, (req, res, next) => {
   const { id: id } = req.params;
   const { phoneNumber, address, password, repeatPassword, image } = req.body;
   console.log("req.body:", req.body)
@@ -103,7 +124,7 @@ console.log("entra");
   }
 
   // Delete "/:id" => Route to your profile
-  router.delete("/:id", (req, res, next) => {
+  router.delete("/myprofile/:id", (req, res, next) => {
     const { id: id } = req.params;
   
     if (!req.payload.isTransportist) {
@@ -126,7 +147,7 @@ console.log("entra");
 });
  
 // POST "/api/upload" => Route that receives the image, sends it to Cloudinary via the fileUploader and returns the image URL
-router.post("/upload", fileUploader.single("image"), (req, res, next) => {
+router.post("/myprofile/upload", fileUploader.single("image"), (req, res, next) => {
   // console.log("file is: ", req.file)
  
   if (!req.file) {
