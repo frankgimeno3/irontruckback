@@ -108,32 +108,35 @@ router.put("/myprofile/:id", isAuthenticated, (req, res, next) => {
   }
 
   // Delete "/:id" => Route to your profile
-  router.delete("/myprofile/:id", isAuthenticated, (req, res, next) => {
-    const { id: id } = req.params;
-    console.log("id:", id)
+  
+});
 
-    // if (!mongoose.Types.ObjectId.isValid(id)) {
-    //   res.status(400).json({ message: "Specified id is not valid" });
-    //   return;
-    // }
+router.delete("/myprofile/:id", isAuthenticated, (req, res, next) => {
+  const { id: id } = req.params;
+  console.log("ENTRO EN DELETE PROFILE")
+  console.log("id:", id)
 
-    if (!req.payload.isTransportist) {
-      Sender.findByIdAndDelete(id)
-        .then(() => {
-          res.json({message: "Your order was removed successfully."});
-        })
-        .catch(err => res.json(err))
-    }
+  // if (!mongoose.Types.ObjectId.isValid(id)) {
+  //   res.status(400).json({ message: "Specified id is not valid" });
+  //   return;
+  // }
 
-    if (req.payload.isTransportist) {
+  if (!req.payload.isTransportist) {
+    Sender.findByIdAndDelete(id)
+      .then(() => {
+        res.json({message: "Your order was removed successfully."});
+      })
+      .catch(err => res.json(err))
+  }
 
-      Transportist.findByIdAndDelete(id)
-        .then(() => {
-          res.json({message: "Your order was removed successfully."});
-        })
-        .catch(err => res.json(err))
-    }
-  });
+  if (req.payload.isTransportist) {
+
+    Transportist.findByIdAndDelete(id)
+      .then(() => {
+        res.json({message: "Your order was removed successfully."});
+      })
+      .catch(err => res.json(err))
+  }
 });
 
 // POST "/api/upload" => Route that receives the image, sends it to Cloudinary via the fileUploader and returns the image URL
