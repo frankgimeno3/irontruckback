@@ -108,7 +108,7 @@ router.put("/myprofile/:id", isAuthenticated, (req, res, next) => {
   }
 
   // Delete "/:id" => Route to your profile
-  router.delete("/myprofile/:id", (req, res, next) => {
+  router.delete("/myprofile/:id", isAuthenticated, (req, res, next) => {
     const { id: id } = req.params;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
