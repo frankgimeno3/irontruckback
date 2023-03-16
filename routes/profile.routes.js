@@ -100,7 +100,7 @@ router.put("/myprofile/:id", isAuthenticated, (req, res, next) => {
   if (req.payload.isTransportist) {
     Transportist.findByIdAndUpdate(id, updateFields, { new: true })
       .then(response => {
-        console.log(response.data);
+        console.log("response.data:", response.data);
         console.log("entra6");
         res.status(200).json(req.payload);
       })
@@ -110,11 +110,12 @@ router.put("/myprofile/:id", isAuthenticated, (req, res, next) => {
   // Delete "/:id" => Route to your profile
   router.delete("/myprofile/:id", isAuthenticated, (req, res, next) => {
     const { id: id } = req.params;
+    console.log("id:", id)
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      res.status(400).json({ message: "Specified id is not valid" });
-      return;
-    }
+    // if (!mongoose.Types.ObjectId.isValid(id)) {
+    //   res.status(400).json({ message: "Specified id is not valid" });
+    //   return;
+    // }
 
     if (!req.payload.isTransportist) {
       Sender.findByIdAndDelete(id)

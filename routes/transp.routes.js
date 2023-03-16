@@ -63,7 +63,7 @@ router.post("/signup", (req, res, next) => {
             const salt = bcrypt.genSaltSync(saltRounds);
             const hashedPassword = bcrypt.hashSync(password, salt);
 
-            return Transportist.create({ email, password: hashedPassword, name, phoneNumber, });
+            return Transportist.create({ email, password: hashedPassword, name, phoneNumber });
         })
 
         .then((createdTransportist) => {
@@ -93,9 +93,9 @@ router.post("/login", (req, res, next) => {
             const passwordCorrect = bcrypt.compareSync(password, foundTransportist.password);
 
             if (passwordCorrect) {
-                const { _id, email, name, isTransportist, image } = foundTransportist;
+                const { _id, email, name, isTransportist,  phoneNumber, licensePlate, professionalType, nif, image } = foundTransportist;
 
-                const payload = { _id, email, name, address, phoneNumber, licensePlate, professionalType, nif, isTransportist: true };
+                const payload = { _id, email, name, phoneNumber, licensePlate, professionalType, nif, isTransportist: true };
 
                 const authToken = jwt.sign(payload, process.env.TOKEN_SECRET, {
                     algorithm: "HS256",
