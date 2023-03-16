@@ -32,9 +32,13 @@ const senderSchema = new Schema(
 
     address: {
       type: String,
-      required: [true, "Direccion is required."]
+      required: [true, "Address is required."]
     },
 
+    isTransportist:{
+      type: Boolean,
+      default: false,
+    },
 
     createdShipments: [{ type: Schema.Types.ObjectId, ref: "Shipment" }],
 

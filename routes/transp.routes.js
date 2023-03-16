@@ -21,6 +21,7 @@ router.post("/signup", (req, res, next) => {
         currentShipments,
         completedShipments,
         rejectedShipments,
+        isTransportist,
         isAdmin } = req.body;
 
     if (email === "" || password === "" || name === "") {
@@ -92,9 +93,9 @@ router.post("/login", (req, res, next) => {
             const passwordCorrect = bcrypt.compareSync(password, foundTransportist.password);
 
             if (passwordCorrect) {
-                const { _id, email, name, isTransportist } = foundTransportist;
+                const { _id, email, name, isTransportist, image } = foundTransportist;
 
-                const payload = { _id, email, name, isTransportist: true };
+                const payload = { _id, email, name, address, phoneNumber, licensePlate, professionalType, nif, isTransportist: true };
 
                 const authToken = jwt.sign(payload, process.env.TOKEN_SECRET, {
                     algorithm: "HS256",

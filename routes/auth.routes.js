@@ -19,6 +19,7 @@ router.post("/signup", (req, res, next) => {
     currentShipments,
     completedShipments,
     rejectedShipments,
+    isTransportist,
   } = req.body;
 
   if (
@@ -73,6 +74,7 @@ router.post("/signup", (req, res, next) => {
         name,
         phoneNumber,
         address,
+        isTransportist,
       });
     })
 
@@ -89,6 +91,7 @@ router.post("/signup", (req, res, next) => {
         currentShipments,
         completedShipments,
         rejectedShipments,
+        isTransportist,
       } = createdSender;
 
       const sender = {
@@ -103,6 +106,7 @@ router.post("/signup", (req, res, next) => {
         currentShipments,
         completedShipments,
         rejectedShipments,
+        isTransportist,
       };
 
       res.status(201).json({ sender: sender });
@@ -131,9 +135,9 @@ router.post("/login", (req, res, next) => {
       );
 
       if (passwordCorrect) {
-        const { _id, email, password, name, image } = foundSender;
+        const { _id, email, password, name, image, address, phoneNumber, isTransportist } = foundSender;
 
-        const payload = { _id, name, email, isTransportist: false };
+        const payload = { _id, name, email, address, phoneNumber, isTransportist: false };
 
         const authToken = jwt.sign(payload, process.env.TOKEN_SECRET, {
           algorithm: "HS256",
