@@ -28,7 +28,7 @@ router.get("/myprofile/:id", isAuthenticated, (req, res, next) => {
   if (req.payload.isTransportist) {
 
     Transportist.findById(id)
-    .populate("currentShipments")
+      .populate("currentShipments")
       .then(result => {
         res.json(result);
       })
@@ -39,34 +39,24 @@ router.get("/myprofile/:id", isAuthenticated, (req, res, next) => {
 router.get("/:id", isAuthenticated, (req, res, next) => {
   const { id: id } = req.params;
 
-Sender.findById(id)
-      .then(result => {
-        res.json(result);
-      })
-      .catch(err => console.log(err))
+  Sender.findById(id)
+    .then(result => {
+      res.json(result);
     })
+    .catch(err => console.log(err))
+})
 
 // PUT /" => Route that receives the image, sends it to Cloudinary via the fileUploader and returns the image URL
 router.put("/myprofile/:id", isAuthenticated, (req, res, next) => {
   const { id: id } = req.params;
   const { phoneNumber, password, repeatPassword, image, address } = req.body;
-  console.log("req.body:", req.body)
   let updateFields = { phoneNumber, password, repeatPassword, image };
-  if(address) updateFields.adress = req.body.address
+  if (address) updateFields.adress = req.body.address
 
   if (password !== repeatPassword) {
     res.status(400).json({ message: "Password and repeat password must be the same" });
     return;
   }
-
-  // if (password === "" || phoneNumber === "" || address === "") {
-  //   res.status(400).json({ message: "Provide all fields" });
-  //   return;
-  // }
-  console.log("phoneNumber:", phoneNumber)
-  console.log("password:", password)
-  console.log("repeatpassword:", repeatPassword)
-  console.log("address:", address)
 
 
   console.log("entra");
@@ -107,37 +97,37 @@ router.put("/myprofile/:id", isAuthenticated, (req, res, next) => {
       .catch(err => next(err))
   }
 
-  // Delete "/:id" => Route to your profile
-  router.delete("/myprofile/:id", isAuthenticated, (req, res, next) => {
-    const { id: id } = req.params;
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      res.status(400).json({ message: "Specified id is not valid" });
-      return;
-    }
-
-    if (!req.payload.isTransportist) {
-      Sender.findByIdAndDelete(id)
-        .then(() => {
-          res.json({message: "Your order was removed successfully."});
-        })
-        .catch(err => res.json(err))
-    }
-
-    if (req.payload.isTransportist) {
-
-      Transportist.findByIdAndDelete(id)
-        .then(() => {
-          res.json({message: "Your order was removed successfully."});
-        })
-        .catch(err => res.json(err))
-    }
-  });
 });
+// Delete "/:id" => Route to your profile
+router.delete("/myprofile/:id", isAuthenticated, (req, res, next) => {
+  const { id: id } = req.params;
 
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    res.status(400).json({ message: "Specified id is not valid" });
+    return;
+  }
+
+  if (!req.payload.isTransportist) {
+    Sender.findByIdAndDelete(id)
+      .then(() => {
+        res.json({ message: "Your order was removed successfully." });
+      })
+      .catch(err => res.json(err))
+  }
+
+  if (req.payload.isTransportist) {
+
+    Transportist.findByIdAndDelete(id)
+      .then(() => {
+        res.json({ message: "Your order was removed successfully." });
+      })
+      .catch(err => res.json(err))
+  }
+});
 // POST "/api/upload" => Route that receives the image, sends it to Cloudinary via the fileUploader and returns the image URL
 router.post("/myprofile/upload", fileUploader.single("image"), (req, res, next) => {
-   console.log("file is: ", req.file)
+  console.log("file is: ", req.file)
 
   if (!req.file) {
     next(new Error("No file uploaded!"));
@@ -147,8 +137,9 @@ router.post("/myprofile/upload", fileUploader.single("image"), (req, res, next) 
   // Get the URL of the uploaded file and send it as a response.
   // 'fileUrl' can be any name, just make sure you remember to use the same when accessing it on the frontend
 
-  res.json({ 
-    fileUrl: req.file.path });
+  res.json({
+    fileUrl: req.file.path
+  });
 });
 
 module.exports = router; 

@@ -44,15 +44,6 @@ router.post("/signup", (req, res, next) => {
         return;
     }
 
-    //Check the phoneNumber is 9 caracters length
-
-    // if (!phoneNumber.length === 9) {
-    //     res.status(400).json({
-    //         message:
-    //             "The Phone Number is not correct",
-    //     });
-    //     return;
-    // }
 
     Transportist.findOne({ email, phoneNumber, nif, })
         .then((foundTransportist) => {
@@ -63,7 +54,7 @@ router.post("/signup", (req, res, next) => {
             const salt = bcrypt.genSaltSync(saltRounds);
             const hashedPassword = bcrypt.hashSync(password, salt);
 
-            return Transportist.create({ email, password: hashedPassword, name, phoneNumber, });
+            return Transportist.create({ email, password: hashedPassword, name, phoneNumber });
         })
 
         .then((createdTransportist) => {
@@ -93,9 +84,9 @@ router.post("/login", (req, res, next) => {
             const passwordCorrect = bcrypt.compareSync(password, foundTransportist.password);
 
             if (passwordCorrect) {
-                const { _id, email, name, isTransportist, image } = foundTransportist;
+                const { _id, email, name, isTransportist, image, phoneNumber, licensePlate, professionalType, nif, } = foundTransportist;
 
-                const payload = { _id, email, name, address, phoneNumber, licensePlate, professionalType, nif, isTransportist: true };
+                const payload = { _id, email, name, phoneNumber, licensePlate, professionalType, nif, isTransportist: true };
 
                 const authToken = jwt.sign(payload, process.env.TOKEN_SECRET, {
                     algorithm: "HS256",

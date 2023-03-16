@@ -35,7 +35,7 @@ const senderSchema = new Schema(
       required: [true, "Address is required."]
     },
 
-    isTransportist:{
+    isTransportist: {
       type: Boolean,
       default: false,
     },
@@ -54,7 +54,6 @@ const senderSchema = new Schema(
     }
   },
   {
-    // this second object adds extra properties: `createdAt` and `updatedAt`
     timestamps: true,
   }
 );
