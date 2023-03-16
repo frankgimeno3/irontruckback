@@ -22,10 +22,6 @@ const transportistSchema = new Schema(
             required: [true, "Password is required."],
         },
 
-        image: {
-            type: String,
-        },
-
         phoneNumber: {
             type: String,
             required: [true, "Phone Number is required"],

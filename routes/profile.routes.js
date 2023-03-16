@@ -28,6 +28,7 @@ router.get("/myprofile/:id", isAuthenticated, (req, res, next) => {
   if (req.payload.isTransportist) {
 
     Transportist.findById(id)
+    .populate("currentShipments")
       .then(result => {
         res.json(result);
       })
@@ -48,9 +49,10 @@ Sender.findById(id)
 // PUT /" => Route that receives the image, sends it to Cloudinary via the fileUploader and returns the image URL
 router.put("/myprofile/:id", isAuthenticated, (req, res, next) => {
   const { id: id } = req.params;
-  const { phoneNumber, address, password, repeatPassword, image } = req.body;
+  const { phoneNumber, password, repeatPassword, image, address } = req.body;
   console.log("req.body:", req.body)
-  const updateFields = { phoneNumber, address, password, repeatPassword, image };
+  let updateFields = { phoneNumber, password, repeatPassword, image };
+  if(address) updateFields.adress = req.body.address
 
   if (password !== repeatPassword) {
     res.status(400).json({ message: "Password and repeat password must be the same" });
@@ -109,28 +111,33 @@ router.put("/myprofile/:id", isAuthenticated, (req, res, next) => {
   router.delete("/myprofile/:id", (req, res, next) => {
     const { id: id } = req.params;
 
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      res.status(400).json({ message: "Specified id is not valid" });
+      return;
+    }
+
     if (!req.payload.isTransportist) {
       Sender.findByIdAndDelete(id)
-        .then(result => {
-          res.json(result);
+        .then(() => {
+          res.json({message: "Your order was removed successfully."});
         })
-        .catch(err => console.log(err))
+        .catch(err => res.json(err))
     }
 
     if (req.payload.isTransportist) {
 
       Transportist.findByIdAndDelete(id)
-        .then(result => {
-          res.json(result);
+        .then(() => {
+          res.json({message: "Your order was removed successfully."});
         })
-        .catch(err => next(err))
+        .catch(err => res.json(err))
     }
   });
 });
 
 // POST "/api/upload" => Route that receives the image, sends it to Cloudinary via the fileUploader and returns the image URL
 router.post("/myprofile/upload", fileUploader.single("image"), (req, res, next) => {
-  // console.log("file is: ", req.file)
+   console.log("file is: ", req.file)
 
   if (!req.file) {
     next(new Error("No file uploaded!"));
@@ -140,7 +147,8 @@ router.post("/myprofile/upload", fileUploader.single("image"), (req, res, next) 
   // Get the URL of the uploaded file and send it as a response.
   // 'fileUrl' can be any name, just make sure you remember to use the same when accessing it on the frontend
 
-  res.json({ fileUrl: req.file.path });
+  res.json({ 
+    fileUrl: req.file.path });
 });
 
 module.exports = router; 
