@@ -55,20 +55,39 @@ router.post("/new", (req, res, next) => {
 
 router.put("/edit/:idShipment", (req, res, next) => {
     const { idShipment } = req.params;
+    const { state, transportists } = req.body
+    console.log("idShipment:", idShipment)
+    console.log("REQ:BODY", req.body)
 
-    Shipment.findById(idShipment)
-        .then(response => {
-            if (response.state === "Created") {
-                Shipment.findByIdAndUpdate(idShipment, req.body, { new: true })
-                    .then(result => {
-                        res.json(result)
-                    }).catch(err => console.log(err))
-            }
-            res.json({ error: "La carga ya no se puede modificar" })
+    Shipment.findByIdAndUpdate(idShipment, req.body, { new: true })
+        .then(result => {
+
+
+            res.json(result)
         })
         .catch(err => console.log(err))
+    // Shipment.findById(idShipment)
+    //     .then(response => {
+    //         console.log("response:", response)
+    //         if (response.data.state === "Created") {
+    //             Shipment.findByIdAndUpdate(idShipment, req.body, { new: true })
+    //                 .then(result => {
+
+    //                     res.json(result)
+    //                 }).catch(err => console.log(err))
+    //         }
+    //         res.json({ error: "La carga ya no se puede modificar" })
+    //     })
+    //     .catch(err => console.log(err))
+
 
 });
+
+
+
+
+
+
 ///api/projects/delete/:idProject
 router.delete("/delete/:id", (req, res, next) => {
     const { idShipment } = req.params;
@@ -91,25 +110,25 @@ router.get("/:idShipment", (req, res, next) => {
         .catch(err => next(err))
 });
 
-router.post('/negotiation', async (req, res) => {
-    const transpId = req.user._id;
-    const { idShipment } = req.params;
+// router.post('/negotiation', async (req, res) => {
+//     const transpId = req.user._id;
+//     const { idShipment } = req.params;
 
-    Transportist.findByIdAndUpdate(transpId, {
-        $push: { currentShipments: idShipment }
-    })
-        .then(result => {
+//     Transportist.findByIdAndUpdate(transpId, {
+//         $push: { currentShipments: idShipment }
+//     })
+//         .then(result => {
 
-            Shipment.findByIdAndUpdate(
-                { state: inNegotiation }
-            )
+//             Shipment.findByIdAndUpdate(
+//                 { state: inNegotiation }
+//             )
 
 
-            res.json({ resultado: "añadido" });
-        })
+//             res.json({ resultado: "añadido" });
+//         })
 
-        .catch(err => next(err))
-});
+//         .catch(err => next(err))
+// });
 
 
 
