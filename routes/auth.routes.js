@@ -48,16 +48,6 @@ router.post("/signup", (req, res, next) => {
     return;
   }
 
-  //Check the phoneNumber is 9 caracters length
-
-  // if (!phoneNumber.length === 9) {
-  //   res.status(400).json({
-  //     message:
-  //       "The phoneNumber is not correct",
-  //   });
-  //   return;
-  // }
-
   Sender.findOne({ email, phoneNumber })
     .then((foundSender) => {
       if (foundSender) {
