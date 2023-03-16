@@ -28,12 +28,11 @@ router.post("/new", (req, res, next) => {
 
         .then(response => {
             return Sender.findByIdAndUpdate(author, { $push: { createdShipments: response._id } }, { new: true })
-
         })
 
         .then(response => {
             console.log(response)
-
+            res.json(response)
         })
         .catch(err => next(err))
 });
