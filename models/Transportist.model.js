@@ -32,7 +32,7 @@ const transportistSchema = new Schema(
             // required: [true, "License Plate is required"],
         },
 
-        professionaltype: {
+        professionalType: {
             type: String,
             enum: ["Company", "Autonomous"],
             // required: [true, " Profesional Type is required."]

@@ -28,7 +28,7 @@ router.get("/myprofile/:id", isAuthenticated, (req, res, next) => {
   if (req.payload.isTransportist) {
 
     Transportist.findById(id)
-    .populate("currentShipments")
+    // .populate("currentShipments")
       .then(result => {
         res.json(result);
       })
@@ -106,11 +106,10 @@ router.put("/myprofile/:id", isAuthenticated, (req, res, next) => {
       })
       .catch(err => next(err))
   }
-
-  // Delete "/:id" => Route to your profile
   
 });
 
+ // Delete "/:id" => Route to your profile
 router.delete("/myprofile/:id", isAuthenticated, (req, res, next) => {
   const { id: id } = req.params;
   console.log("ENTRO EN DELETE PROFILE")
