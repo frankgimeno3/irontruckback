@@ -45,7 +45,7 @@ router.post("/signup", (req, res, next) => {
     }
 
 
-    Transportist.findOne({ email, phoneNumber, nif, })
+    Transportist.findOne({ email, phoneNumber, nif })
         .then((foundTransportist) => {
             if (foundTransportist) {
                 res.status(400).json({ message: "Transportist already exists." });
@@ -54,7 +54,7 @@ router.post("/signup", (req, res, next) => {
             const salt = bcrypt.genSaltSync(saltRounds);
             const hashedPassword = bcrypt.hashSync(password, salt);
 
-            return Transportist.create({ email, password: hashedPassword, name, phoneNumber });
+            return Transportist.create({ email, password: hashedPassword, name, phoneNumber, licensePlate, professionalType, nif, company });
         })
 
         .then((createdTransportist) => {

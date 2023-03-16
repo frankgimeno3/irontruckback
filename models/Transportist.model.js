@@ -24,7 +24,8 @@ const transportistSchema = new Schema(
         licensePlate: {
             type: String,
         },
-        professionaltype: {
+
+        professionalType: {
             type: String,
             enum: ["Company", "Autonomous"],
         },

@@ -28,7 +28,7 @@ router.get("/myprofile/:id", isAuthenticated, (req, res, next) => {
   if (req.payload.isTransportist) {
 
     Transportist.findById(id)
-      .populate("currentShipments")
+    // .populate("currentShipments")
       .then(result => {
         res.json(result);
       })
