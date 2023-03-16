@@ -51,8 +51,8 @@ router.put("/edit/:idShipment", (req, res, next) => {
 
 
 router.delete("/delete/:id", (req, res, next) => {
-    const { idShipment } = req.params;
-    Shipment.findByIdAndDelete(idShipment)
+    const { id } = req.params;
+    Shipment.findByIdAndDelete(id)
         .then(result => {
             res.json({ resultado: "ok" });
         })
