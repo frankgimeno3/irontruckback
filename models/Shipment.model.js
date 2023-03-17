@@ -41,7 +41,7 @@ const shipmentSchema = new Schema(
 
 
         state: {
-            enum: ["Created", "inNegotiation", "Accepted"],
+            enum: ["Created", "inNegotiation", "Completed"],
             default: "Created",
             type: String
         }
