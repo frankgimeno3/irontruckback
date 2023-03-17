@@ -20,10 +20,6 @@ router.get("/", (req, res, next) => {
 router.post("/new", (req, res, next) => {
     const { creationDate, pickUpDireccion, pickUpProvince, deliveryDireccion, deliveryProvince, pallets, author } = req.body;
 
-    console.log(req.current)
-
-    console.log(req.body)
-
     Shipment.create({ author, creationDate, pickUpDireccion, pickUpProvince, deliveryDireccion, deliveryProvince, pallets, author })
 
         .then(response => {
@@ -36,21 +32,6 @@ router.post("/new", (req, res, next) => {
         })
         .catch(err => next(err))
 });
-// router.post("/new", (req, res, next) => {
-//     const { author, creationDate, pickUpDireccion, pickUpProvince, deliveryDireccion, deliveryProvince, pallets } = req.body;
-//     console.log(req.body)
-//     Shipment.create({ author, creationDate, pickUpDireccion, pickUpProvince, deliveryDireccion, deliveryProvince, pallets })
-//         // .then(response => {
-//         //     console.log(response)
-
-//         //     // return Sender.findByIdAndUpdate(author, { $push: { createdShipments: response } }, { new: true })
-//         // })
-//         .then((data) => {
-//              res.json(response) })
-
-//         .catch(err => next(err))
-// });
-
 
 router.put("/edit/:idShipment", (req, res, next) => {
     const { idShipment } = req.params;
@@ -65,20 +46,6 @@ router.put("/edit/:idShipment", (req, res, next) => {
             res.json(result)
         })
         .catch(err => console.log(err))
-    // Shipment.findById(idShipment)
-    //     .then(response => {
-    //         console.log("response:", response)
-    //         if (response.data.state === "Created") {
-    //             Shipment.findByIdAndUpdate(idShipment, req.body, { new: true })
-    //                 .then(result => {
-
-    //                     res.json(result)
-    //                 }).catch(err => console.log(err))
-    //         }
-    //         res.json({ error: "La carga ya no se puede modificar" })
-    //     })
-    //     .catch(err => console.log(err))
-
 
 });
 
@@ -103,7 +70,6 @@ router.get("/:idShipment", (req, res, next) => {
     Shipment.findById(idShipment)
         .populate("author")
         .then(result => {
-            console.log("RESULT: ", result);
             res.json(result);
         })
         .catch(err => next(err))
