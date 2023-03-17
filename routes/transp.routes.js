@@ -105,4 +105,15 @@ router.get("/verify", isAuthenticated, (req, res, next) => {
     res.status(200).json(req.payload);
 });
 
+router.get("/:idTransportist", (req, res, next) => {
+    const { idTransportist } = req.params;
+    Transportist.findById(idTransportist)
+        .populate("transportists")
+        .then(result => {
+            console.log("RESULT: ", result);
+            res.json(result);
+        })
+        .catch(err => next(err))
+});
+
 module.exports = router;
