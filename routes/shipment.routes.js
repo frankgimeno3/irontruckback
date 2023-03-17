@@ -33,8 +33,6 @@ router.post("/new", (req, res, next) => {
         .catch(err => next(err))
 });
 
-
-
 router.put("/edit/:idShipment", (req, res, next) => {
     const { idShipment } = req.params;
     const { state, transportists } = req.body
@@ -66,7 +64,6 @@ router.get("/:idShipment", (req, res, next) => {
         .populate("transportists")
         .populate("author")
         .then(result => {
-            console.log("RESULT: ", result);
             res.json(result);
         })
         .catch(err => next(err))
