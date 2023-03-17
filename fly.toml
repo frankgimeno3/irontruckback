@@ -1,8 +1,9 @@
-# fly.toml file generated for flyctlirontruckback on 2023-03-07T15:55:54+01:00
+# fly.toml file generated for irontruckback on 2023-03-17T10:30:05+01:00
 
-app = "flyctlirontruckback"
+app = "irontruckback"
 kill_signal = "SIGINT"
 kill_timeout = 5
+primary_region = "lhr"
 processes = []
 
 [env]
